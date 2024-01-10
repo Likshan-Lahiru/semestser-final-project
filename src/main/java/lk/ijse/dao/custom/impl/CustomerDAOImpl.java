@@ -2,7 +2,11 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.db.DbConnection;
 import lk.ijse.dto.CustomerDto;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -44,6 +48,24 @@ public class CustomerDAOImpl implements CustomerDAO {
            );
        }
        return customerDto;
+    }
+    @Override
+    public  CustomerDto searchCustomerId(String txtSearchCustomerIDText) throws SQLException {
+        String sql = "SELECT * FROM customer WHERE customer_id= ?";
+        ResultSet resultSet = SQLUtil.execute(sql,txtSearchCustomerIDText);
+        CustomerDto dto = null;
+        if (resultSet.next()) {
+            dto = new CustomerDto(
+                    resultSet.getString("customer_id"),
+                    resultSet.getString("customer_name"),
+                    resultSet.getString("address"),
+                    resultSet.getString("NIC"),
+                    resultSet.getString("contact_number"),
+                    resultSet.getString("email")
+            );
+        }
+
+        return dto;
     }
     @Override
     public boolean update(CustomerDto dto) throws SQLException, ClassNotFoundException {

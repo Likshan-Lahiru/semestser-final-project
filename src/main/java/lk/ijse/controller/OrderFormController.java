@@ -488,9 +488,7 @@ public class OrderFormController {
     public void cmbCustomerOnAction(ActionEvent actionEvent) throws SQLException {
        try {
            String id = (String) cmbCustomerIddd.getValue();
-           CustomerDto dto = new CustomerDAOImpl().search(id);
-
-
+           CustomerDto dto = new CustomerDAOImpl().searchCustomerId(id);
            lblCustomerName.setText(dto.getCustomerName());
            lblCustomerEmail.setText(dto.getCustomerEmail());
        }catch (SQLException e){
