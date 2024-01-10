@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.dao.custom.impl.ToolDAOImpl;
 import lk.ijse.dto.ToolDto;
 import lk.ijse.dto.tm.ToolTm;
 import lk.ijse.model.ToolModel;
@@ -70,7 +71,7 @@ public class ToolFormController {
 
         ObservableList<ToolTm> toolList = FXCollections.observableArrayList();
         try {
-            List<ToolDto> dtoList = model.getAllTool();
+            List<ToolDto> dtoList = new ToolDAOImpl().getAll();
             if (dtoList != null) {
                 for (ToolDto dto : dtoList) {
                     toolList.add(new ToolTm(
@@ -109,7 +110,7 @@ public class ToolFormController {
                             ToolModel model = new ToolModel();
 
                             try {
-                                boolean isSaved = model.saveTool(dto);
+                                boolean isSaved = new ToolDAOImpl().save(dto);
                                 if (isSaved){
                                     new SystemAlert(Alert.AlertType.CONFIRMATION,"SUCCESS","Tool Save Successfully!",ButtonType.CLOSE).show();
                                     try {
@@ -187,7 +188,7 @@ public class ToolFormController {
                             ToolModel model = new ToolModel();
                             try {
 
-                                boolean isUpdateTool = model.updateToolId(dto);
+                                boolean isUpdateTool = new ToolDAOImpl().update(dto);
                                 if (isUpdateTool){
                                     new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Tool Updated successfully!", ButtonType.OK).show();
                                     try {
@@ -273,7 +274,7 @@ public class ToolFormController {
         ToolModel model = new ToolModel();
 
         try {
-            ToolDto dto1 = model.searchToolID(searchIdText);
+            ToolDto dto1 = new ToolDAOImpl().search(searchIdText);
             if (dto1 !=null){
                 toolSetFields(dto1);
             }else {
@@ -357,14 +358,12 @@ public class ToolFormController {
                             TxtColours.setDefaultColours(txtToolQtyOnHand);
 
                             String toolId = txtxToolId.getText();
-                            String toolName = txtToolName.getText();
-                            Double perDayPrice = Double.valueOf(txtRentPerDayPrice.getText());
-                            int toolQtyOnHand = Integer.parseInt(txtToolQtyOnHand.getText());
 
-                            ToolDto dto = new ToolDto(toolId,toolName,toolQtyOnHand,perDayPrice);
+
+
                             ToolModel model = new ToolModel();
                             try {
-                                boolean isDeleted = model.deleteTool(dto);
+                                boolean isDeleted = new ToolDAOImpl().delete(toolId);
                                 if(isDeleted){
                                     new SystemAlert(Alert.AlertType.CONFIRMATION,"Confirmation","Item Deleted successfully!",ButtonType.OK).show();
                                     try {

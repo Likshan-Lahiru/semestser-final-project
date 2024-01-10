@@ -1,5 +1,6 @@
 package lk.ijse.model;
 
+import lk.ijse.dao.custom.impl.ToolDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.PlaceOrderDto;
 
@@ -22,7 +23,7 @@ public class OrderPlaceModel {
             boolean isOrderSaved = OrderModel.saveOrder(dto.getCustomerId(),dto.getOrderId(),dto.getOrderDate(),dto.getName());
          if (isOrderSaved) {
 
-                boolean isUpdated = toolModel.updateTool(dto.getCartTms());
+                boolean isUpdated = new ToolDAOImpl().updateTool(dto.getCartTms());
                if(isUpdated) {
                     boolean isOrderDetailSaved = orderDetailModel.saveOrderDetail(dto.getOrderId(), dto.getCartTms());
                   if(isOrderDetailSaved) {

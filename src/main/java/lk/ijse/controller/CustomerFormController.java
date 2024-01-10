@@ -10,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.model.CustomerModel;
@@ -61,6 +63,8 @@ public class CustomerFormController {
 
 
 
+
+
     public void initialize(){
         customerCellvalueFactory();
         loadAllCustomer();
@@ -76,11 +80,11 @@ public class CustomerFormController {
         colCustomerEmail.setCellValueFactory(new PropertyValueFactory<>("customerEmail"));
     }
     public void loadAllCustomer(){
-       var model = new CustomerModel();
+       var model = new CustomerDAOImpl();
 
         ObservableList<CustomerTm> customerTmObservableList = FXCollections.observableArrayList();
         try {
-            List<CustomerDto> customerDtoList =model.getAllCustomer();
+            List<CustomerDto> customerDtoList =model.getAll();
             for (CustomerDto dto : customerDtoList){
                     customerTmObservableList.add(
                       new CustomerTm(
@@ -102,9 +106,12 @@ public class CustomerFormController {
     }
     public void btnCustomerIDSearchOnAction(ActionEvent actionEvent) {
         String txtSearchCustomerIDText = txtSearchCustomerID.getText();
+
+
         if (txtSearchCustomerIDText.isEmpty()){
 
             new SystemAlert(Alert.AlertType.ERROR, "Error", "Please Enter the valid customer contact number!", ButtonType.OK).show();
+
             try {
                    boolean check = mainFormController.check();
                 if(check){
@@ -118,9 +125,9 @@ public class CustomerFormController {
 
             return;
         }
-        CustomerModel model = new CustomerModel();
+
         try {
-            CustomerDto dto = model.searchCustomer(txtSearchCustomerIDText);
+            CustomerDto dto = new CustomerDAOImpl().search(txtSearchCustomerIDText);
             if(dto!=null){
                 cutomerSetField(dto);
             }else {
@@ -213,9 +220,9 @@ public class CustomerFormController {
 
 
         CustomerDto dto = new CustomerDto(txtCustomerIdText, txtCustomerNameText, txtCustomerAddressText, txtCustomerNICText, txtCustomerContactNumberText, customerEmailText);
-        CustomerModel model = new CustomerModel();
+
         try {
-            boolean isSaved =model.saveCustomer(dto);
+            boolean isSaved = new CustomerDAOImpl().save(dto);
             if (isSaved){
                 loadAllCustomer();
                 new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Customer Enter successfully!", ButtonType.OK).show();
@@ -231,6 +238,7 @@ public class CustomerFormController {
                 clearCustomerField();
             }
         }catch (SQLException e){
+
             new SystemAlert(Alert.AlertType.ERROR, "Error", "Something went wrong!", ButtonType.OK).show();
         }
     }
@@ -323,12 +331,13 @@ public class CustomerFormController {
 
 
         CustomerDto dto = new CustomerDto(txtCustomerIdText, txtCustomerNameText, txtCustomerAddressText, txtCustomerNICText, txtCustomerContactNumberText, customerEmailText);
-        CustomerModel model = new CustomerModel();
+
 
         try {
-            boolean isUpdated = model.updateCustomer(dto);
+            boolean isUpdated = new CustomerDAOImpl().update(dto);
             if (isUpdated) {
                 new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Customer Update successfully!", ButtonType.OK).show();
+
                 try {
                     boolean check = mainFormController.check();
                     if(check){
@@ -340,11 +349,15 @@ public class CustomerFormController {
                 }
 
 
+            }else {
+                new SystemAlert(Alert.AlertType.WARNING,"Warning!","update failed",ButtonType.OK).show();
             }
 
         }catch (SQLException e){
             new SystemAlert(Alert.AlertType.ERROR, "Error", e.getMessage(), ButtonType.OK).show();
 
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -429,9 +442,9 @@ public class CustomerFormController {
             return;
         }
         String txtCustomerIdText = txtCustomerId.getText();
-        CustomerModel model = new CustomerModel();
+
         try {
-           boolean isDeleted = model.deleteCustomer(txtCustomerIdText);
+           boolean isDeleted = new CustomerDAOImpl().delete(txtCustomerIdText);
            if (isDeleted) {
                new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Customer Deleted successfully!", ButtonType.OK).show();
                try {
@@ -446,7 +459,9 @@ public class CustomerFormController {
         }
     }catch (SQLException e){
         new SystemAlert(Alert.AlertType.ERROR, "Error", e.getMessage(), ButtonType.OK).show();
-    }
+    } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package lk.ijse.model;
 
+import lk.ijse.dao.custom.impl.ToolDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.StockListDto;
 import lk.ijse.dto.ToolWasteDetailDto;
@@ -19,7 +20,7 @@ public class StockListModel {
             connection = DbConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
-            boolean isUpdated = toolModel.addStockList(stockListDto.getStockListTms());
+            boolean isUpdated = new ToolDAOImpl().addStockList(stockListDto.getStockListTms());
            if(isUpdated) {
                 boolean isSaved = SupplierToolModel.saveStockList(stockListDto.getStockListTms());
                if(isSaved) {

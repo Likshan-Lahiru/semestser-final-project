@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dao.custom.impl.SignUpDAOImpl;
 import lk.ijse.dto.SignUpDto;
 import lk.ijse.model.SignUpModel;
 import lk.ijse.util.ButtonSounds;
@@ -91,10 +92,10 @@ public class SignUPFormController {
 
         var dto = new SignUpDto(FirstName,SecondName,UserName,password,email);
 
-        var model = new SignUpModel();
+
 
         try {
-            boolean isCreateAccount = model.createAccount(dto);
+            boolean isCreateAccount = new SignUpDAOImpl().createAccount(dto);
             if (isCreateAccount){
                new SystemAlert(Alert.AlertType.INFORMATION, "Information", "Account Created Successfully").show();
                 resetBoarderColor();

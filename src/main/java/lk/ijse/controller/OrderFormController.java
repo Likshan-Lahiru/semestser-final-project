@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.dao.custom.impl.CustomerDAOImpl;
+import lk.ijse.dao.custom.impl.ToolDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
@@ -31,10 +33,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class OrderFormController {
 
@@ -207,7 +206,7 @@ public class OrderFormController {
     private void loadToolid() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<ToolDto> toolDtoList = ToolModel.getAllTool();
+            List<ToolDto> toolDtoList = new ToolDAOImpl().getAll();
 
             for (ToolDto toolDto : toolDtoList) {
                 obList.add(toolDto.getToolId());
@@ -222,7 +221,7 @@ public class OrderFormController {
     private void loadCustomerIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<CustomerDto> cusList = CustomerModel.getAllCustomer();
+            List<CustomerDto> cusList = new CustomerDAOImpl().getAll();
 
             for (CustomerDto dto : cusList) {
                 obList.add(dto.getCustomerId());
@@ -457,7 +456,7 @@ public class OrderFormController {
         txtQty.requestFocus();
 
         try {
-            ToolDto dto = ToolModel.searchToolID(toolid);
+            ToolDto dto = new ToolDAOImpl().search(toolid);
 
             lblDescription.setText(dto.getToolName());
             lblRentPerDay.setText(String.valueOf(dto.getRentPerDay()));
@@ -475,7 +474,7 @@ public class OrderFormController {
         txtQty.requestFocus();
 
         try {
-            ToolDto dto = ToolModel.searchToolID(code);
+            ToolDto dto = new ToolDAOImpl().search(code);
 
             lblDescription.setText(dto.getToolName());
             lblRentPerDay.setText(String.valueOf(dto.getRentPerDay()));
@@ -489,7 +488,7 @@ public class OrderFormController {
     public void cmbCustomerOnAction(ActionEvent actionEvent) throws SQLException {
        try {
            String id = (String) cmbCustomerIddd.getValue();
-           CustomerDto dto = CustomerModel.searchCustomerId(id);
+           CustomerDto dto = new CustomerDAOImpl().search(id);
 
 
            lblCustomerName.setText(dto.getCustomerName());
@@ -536,9 +535,10 @@ public class OrderFormController {
         String lblReToolIdText = lblReToolId.getText();
         String lblReQtyText = lblReQty.getText();
         String txtReStatusText = txtReStatus.getText();
+       String date = String.valueOf(new Date());
 
 
-             OrderDetailsDto dto = new OrderDetailsDto(lblReOrderIdText, lblReToolIdText, lblReQtyText, txtReStatusText);
+             OrderDetailsDto dto = new OrderDetailsDto(lblReOrderIdText, lblReToolIdText, lblReQtyText, txtReStatusText,date);
             OrderDetailModel model = new OrderDetailModel();
 
 

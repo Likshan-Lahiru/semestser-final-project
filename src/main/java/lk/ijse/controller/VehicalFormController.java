@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.dao.custom.impl.VehicleDAOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.VehicleDto;
 import lk.ijse.dto.tm.VehicleTm;
@@ -77,7 +78,7 @@ public class VehicalFormController {
 
         ObservableList<VehicleTm> vehicleTmObservableList = FXCollections.observableArrayList();
         try {
-            List<VehicleDto>  vehicleDtos =model.getAllvehicle();
+            List<VehicleDto>  vehicleDtos =new VehicleDAOImpl().getAll();
             for (VehicleDto dto : vehicleDtos){
                 vehicleTmObservableList.add(
                         new VehicleTm(
@@ -132,7 +133,7 @@ public class VehicalFormController {
 
         try {
 
-            boolean isSaved = model.saveVehicle(dto);
+            boolean isSaved = new VehicleDAOImpl().save(dto);
             if (isSaved){
                 new SystemAlert(Alert.AlertType.CONFIRMATION,"Confirmation","New Vehicle details is Saved!", ButtonType.OK).show();
             }else {
@@ -175,7 +176,7 @@ public class VehicalFormController {
         VehicleDto dto = new VehicleDto(txtVehicleIdText, txtNumPlateNoText, txtVehicleStatusText, pickerLastServiceDateValue);
         VehicleModel model = new VehicleModel();
         try {
-           boolean isUpdated =  model.updateVehicle(dto);
+           boolean isUpdated =  new VehicleDAOImpl().update(dto);
            if (isUpdated){
                new SystemAlert(Alert.AlertType.CONFIRMATION,"Confirmation","Vehicle details is Updated!", ButtonType.OK).show();
            }else {
@@ -212,9 +213,9 @@ public class VehicalFormController {
         }
         String txtVehicleIdText = txtVehicleId.getText();
 
-        VehicleModel model =  new VehicleModel();
+
         try {
-            boolean isDeleted = model.deleteVehicle(txtVehicleIdText);
+            boolean isDeleted = new VehicleDAOImpl().delete(txtVehicleIdText);
             if (isDeleted){
                 new SystemAlert(Alert.AlertType.CONFIRMATION,"Confirmation","Vehicle details is Deleted!", ButtonType.OK).show();
             }else {

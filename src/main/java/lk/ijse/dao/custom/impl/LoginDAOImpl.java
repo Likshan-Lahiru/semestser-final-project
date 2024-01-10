@@ -1,23 +1,16 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import lk.ijse.dao.custom.LoginDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.LoginDto;
 import lk.ijse.dto.SignUpDto;
-
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LoginModel {
-    public AnchorPane root;
-
+public class LoginDAOImpl implements LoginDAO {
+    @Override
     public boolean checkCredentianl(LoginDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "select * from user where user_name = ? and password = ?";
@@ -34,14 +27,10 @@ public class LoginModel {
         } else {
             return false;
         }
-
-
-
     }
 
-
-
-    public static SignUpDto getName(String nameText) throws SQLException {
+    @Override
+    public SignUpDto getName(String nameText) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "select * from user where user_name = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);

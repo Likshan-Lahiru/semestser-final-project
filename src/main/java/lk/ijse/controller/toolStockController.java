@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.dao.custom.impl.SupplierDAOImpl;
+import lk.ijse.dao.custom.impl.ToolDAOImpl;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.StockListTm;
 import lk.ijse.model.StockListModel;
@@ -141,7 +143,7 @@ public class toolStockController {
         ObservableList<StockListTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<ToolDto> dtoList = model.getAllTool();
+            List<ToolDto> dtoList = new ToolDAOImpl().getAll();
 
             for (ToolDto dto : dtoList) {
                 obList.add(
@@ -171,7 +173,7 @@ public class toolStockController {
     private void loadToolid() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<ToolDto> toolDtoList = ToolModel.getAllTool();
+            List<ToolDto> toolDtoList = new ToolDAOImpl().getAll();
 
             for (ToolDto toolDto : toolDtoList) {
                 obList.add(toolDto.getToolId());
@@ -186,7 +188,7 @@ public class toolStockController {
     private void loadSupplierIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<SupplierDto> cusList = SupplierModel.getAllSupplier();
+            List<SupplierDto> cusList = new SupplierDAOImpl().getAll();
 
             for (SupplierDto dto : cusList) {
                 obList.add(dto.getSupplierId());
@@ -311,7 +313,7 @@ public class toolStockController {
 
 
         try {
-            ToolDto dto = ToolModel.searchToolID(code);
+            ToolDto dto = new ToolDAOImpl().search(code);
 
             lblToolName.setText(dto.getToolName());
             lblQtyOnHand.setText(String.valueOf(dto.getQtyOnhand()));
@@ -355,7 +357,7 @@ public class toolStockController {
 
     public void cmbSupplierIdOnAction(ActionEvent actionEvent) throws SQLException {
         String id = (String) cmbSupplierId.getValue();
-        SupplierDto dto = SupplierModel.searchSupplier(id);
+        SupplierDto dto = new SupplierDAOImpl().search(id);
 
         lblSupplierName.setText(dto.getSupplierName());
     }
@@ -416,7 +418,7 @@ public class toolStockController {
         ToolWasteDetailDto dto = new ToolWasteDetailDto(toolId,toolName,Integer.parseInt(qtyOnHand),String.valueOf(wasteCount),lastUpdatedDate);
         ToolModel model = new ToolModel();
         try {
-            boolean isAdded = model.addToolWasteDetail(dto);
+            boolean isAdded = new ToolDAOImpl().addToolWasteDetail(dto);
             if (isAdded) {
                 new SystemAlert(Alert.AlertType.INFORMATION, "Information", "Tool Waste Detail Added Successfully!", ButtonType.OK).show();
             }else {

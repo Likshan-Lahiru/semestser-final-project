@@ -24,10 +24,11 @@ public class OrderDetailsDto {
         this.qty = String.valueOf(qty);
     }
 
-    public OrderDetailsDto(String lblReOrderIdText, String lblReToolIdText, String lblReQtyText, String txtReStatusText) {
+    public OrderDetailsDto(String lblReOrderIdText, String lblReToolIdText, String lblReQtyText, String txtReStatusText,String date) {
         this.orderId = lblReOrderIdText;
         this.toolId = lblReToolIdText;
         this.qty = lblReQtyText;
         this.status = txtReStatusText;
+        this.date = date;
     }
 }

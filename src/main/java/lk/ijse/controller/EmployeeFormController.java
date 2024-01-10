@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import lk.ijse.dao.custom.impl.EmployeeDAOImpl;
 import lk.ijse.dto.AttandanceDto;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.EmployeeDto;
@@ -42,10 +43,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-
-
-
-//
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 import com.github.sarxos.webcam.WebcamResolution;
@@ -171,12 +168,12 @@ public class EmployeeFormController {
         lblAttandanceDate.setText(java.time.LocalDate.now().toString());
     }
 
-    private void loadAllEmployee() {
+    public void loadAllEmployee() {
         var model = new EmployeeModel();
 
         ObservableList<EmployeeTm> employeeTmObservableList = FXCollections.observableArrayList();
         try {
-            List<EmployeeDto> employeeDtos  =model.getAllEmployee();
+            List<EmployeeDto> employeeDtos  = new EmployeeDAOImpl().getAll();
             for (EmployeeDto dto : employeeDtos){
                 employeeTmObservableList.add(
                         new EmployeeTm(
@@ -218,7 +215,7 @@ public class EmployeeFormController {
         }
         EmployeeModel model = new EmployeeModel();
         try {
-            EmployeeDto dto = model.searchEmployee(employeeIDText);
+            EmployeeDto dto = new EmployeeDAOImpl().search(employeeIDText);
             if(dto!=null){
                 employeeSetFeild(dto);
             }else {
@@ -248,6 +245,9 @@ public class EmployeeFormController {
         String employeeNameText = txtEmployeeName.getText();
         String employeeNICText = txtEmployeeNIC.getText();
         String employeeAddressText = txtEmployeeAddress.getText();
+
+
+
 
         if (!(txtEmployeerId.getText().isEmpty()||txtEmployeeName.getText().isEmpty()||txtEmployeeNIC.getText().isEmpty()||txtEmployeeAddress.getText().isEmpty())){
             if (RegExPatterns.getEmployeeId().matcher(txtEmployeerId.getText()).matches()){
@@ -298,11 +298,12 @@ public class EmployeeFormController {
         }
 
 
+
         EmployeeDto dto = new EmployeeDto(employeeIDText, employeeNameText, employeeNICText, employeeAddressText);
         EmployeeModel model = new EmployeeModel();
 
         try {
-            boolean isSaved = model.saveEmployee(dto);
+            boolean isSaved = new EmployeeDAOImpl().save(dto);
             if (isSaved){
                     loadAllEmployee();
                     new SystemAlert(Alert.AlertType.CONFIRMATION,"Success","Employee Saved Successfully!").show();
@@ -390,9 +391,9 @@ public class EmployeeFormController {
         String employeeAddressText = txtEmployeeAddress.getText();
 
         EmployeeDto dto = new EmployeeDto(employeeIDText, employeeNameText, employeeNICText, employeeAddressText);
-        EmployeeModel model = new EmployeeModel();
+
         try {
-            boolean isUpdated = model.updateEmployee(dto);
+            boolean isUpdated = new EmployeeDAOImpl().update(dto);
             if (isUpdated){
                 new SystemAlert(Alert.AlertType.CONFIRMATION,"Success","Employee Updated Successfully").show();
                 try {
@@ -531,7 +532,7 @@ public class EmployeeFormController {
 
         EmployeeModel model = new EmployeeModel();
         try {
-            boolean isDeleted = model.deleteEmployee(employeeId);
+            boolean isDeleted = new EmployeeDAOImpl().delete(employeeId);
             if (isDeleted){
                 new SystemAlert(Alert.AlertType.CONFIRMATION,"Success","Employee Deleted Successfully").show();
                 try {
@@ -568,7 +569,7 @@ public class EmployeeFormController {
     private void loadEmployeeIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<EmployeeDto> employeeDtoListList = EmployeeModel.getAllEmployee();
+            List<EmployeeDto> employeeDtoListList = new EmployeeDAOImpl().getAll();
 
             for ( EmployeeDto dto: employeeDtoListList) {
                 obList.add(dto.getEmployeeid());

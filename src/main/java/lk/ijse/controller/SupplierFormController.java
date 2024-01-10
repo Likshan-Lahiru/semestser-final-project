@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.SupplierTm;
 import lk.ijse.model.SupplierModel;
@@ -86,7 +87,7 @@ public class SupplierFormController {
 
         ObservableList<SupplierTm> supplierTmObservableList = FXCollections.observableArrayList();
         try {
-            List<SupplierDto> supplierDtoList = model.getAllSupplier();
+            List<SupplierDto> supplierDtoList = new SupplierDAOImpl().getAll();
             for (SupplierDto dto : supplierDtoList) {
                 supplierTmObservableList.add(
                         new SupplierTm(
@@ -122,7 +123,7 @@ public class SupplierFormController {
         }
         SupplierModel model = new SupplierModel();
         try {
-            SupplierDto dto = model.searchSupplier(searchSupplierIDText);
+            SupplierDto dto = new SupplierDAOImpl().search(searchSupplierIDText);
             if (dto != null) {
                 SupplierSetField(dto);
             } else {
@@ -172,7 +173,7 @@ public class SupplierFormController {
         String supplierId = txtSupplierId.getText();
         SupplierModel model = new SupplierModel();
         try {
-            boolean isDeleted = model.deleteSupplier(supplierId);
+            boolean isDeleted = new SupplierDAOImpl().delete(supplierId);
             if (isDeleted){
                 new SystemAlert(Alert.AlertType.CONFIRMATION, "Success", "Supplier Deleted Successfully!", ButtonType.OK).show();
                 clearSupplierField();
@@ -241,7 +242,7 @@ public class SupplierFormController {
         );
         SupplierModel model = new SupplierModel();
         try {
-            boolean isUpdated = model.updateSupplier(dto);
+            boolean isUpdated = new SupplierDAOImpl().update(dto);
             if (isUpdated){
                 new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Supplier Updated Successfully!", ButtonType.OK).show();
                 clearSupplierField();
@@ -299,7 +300,7 @@ public class SupplierFormController {
             SupplierModel model = new SupplierModel();
 
             try {
-                boolean isSaved = model.saveSupplier(dto);
+                boolean isSaved = new SupplierDAOImpl().save(dto);
                 if (isSaved) {
                     new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Supplier Saved Successfully!", ButtonType.OK).show();
 

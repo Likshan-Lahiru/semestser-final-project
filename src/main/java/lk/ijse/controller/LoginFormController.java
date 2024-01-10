@@ -11,16 +11,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dao.custom.impl.LoginDAOImpl;
 import lk.ijse.dto.LoginDto;
 import lk.ijse.dto.SignUpDto;
-import lk.ijse.model.LoginModel;
 import lk.ijse.util.Mail;
 import lk.ijse.util.SoundsAssits;
 import lk.ijse.util.SystemAlert;
-
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Timer;
+
 
 public class LoginFormController {
     @FXML
@@ -79,7 +78,7 @@ public class LoginFormController {
             return;
         }
 
-        SignUpDto dto1 = new LoginModel().getName(nameText);
+        SignUpDto dto1 = new LoginDAOImpl().getName(nameText);
         String name = dto1.getUserName();
         String name2 = dto1.getScondName();
 
@@ -93,13 +92,9 @@ public class LoginFormController {
 
 
        LoginDto dto = new LoginDto(nameText,passwordText);
-        LoginModel model = new LoginModel();
-        SignUpDto signUpDto = new SignUpDto();
 
-        model.checkCredentianl(dto);
-
-        try {
-            boolean checked = model.checkCredentianl(dto);
+       try {
+            boolean checked = new LoginDAOImpl().checkCredentianl(dto);
             if (checked){
         AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/Main_form.fxml"));
         Scene scene = new Scene(anchorPane);

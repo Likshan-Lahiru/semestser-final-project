@@ -1,5 +1,6 @@
 package lk.ijse.model;
 
+import lk.ijse.dao.custom.impl.ToolDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.OrderDetailsDto;
 import lk.ijse.dto.tm.CartTm;
@@ -52,7 +53,7 @@ public class OrderDetailModel {
             connection = DbConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
-            boolean isUpdated = toolModel.updateToolReturnQty(dto);
+            boolean isUpdated = new ToolDAOImpl().updateToolReturnQty(dto);
             if(isUpdated) {
                boolean isOrderDetailSaved  = OrderDetailModel.updateReturnPrderDetail(dto);
                if (isOrderDetailSaved) {
@@ -72,7 +73,7 @@ public class OrderDetailModel {
     private static boolean updateReturnPrderDetail(OrderDetailsDto dto) throws SQLException {
 
         Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "UPDATE order_detail SET status = ? WHERE order_id = ? AND tool_id = ?";
+        String sql = "UPDATE order_detail SET status = ?, order_date = CURRENT_DATE WHERE order_id = ?  AND tool_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
         pstm.setString(1, dto.getStatus());
         pstm.setString(2, dto.getOrderId());
