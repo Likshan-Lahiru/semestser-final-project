@@ -33,8 +33,6 @@ public class SignUPFormController {
     @FXML
     private AnchorPane root;
 
-
-
     public void btnCreateAccountOnAction(ActionEvent actionEvent) {
         String FirstName = txtFirstName.getText();
         String SecondName = txtSecondName.getText();

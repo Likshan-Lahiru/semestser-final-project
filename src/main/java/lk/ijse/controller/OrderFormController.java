@@ -12,10 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.dao.custom.impl.CustomerDAOImpl;
-import lk.ijse.dao.custom.impl.OrderDeatilDAOImpl;
-import lk.ijse.dao.custom.impl.PlaceOrderDAOImpl;
-import lk.ijse.dao.custom.impl.ToolDAOImpl;
+import lk.ijse.dao.custom.impl.*;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
@@ -170,11 +167,11 @@ public class OrderFormController {
         String status = txtReStatus.getText();
 
         new OrderDetailsDto(cmbToolIDValue, orderId, txtQtyText, lblRentPerDayText, orderDate, status);
-        var model = new OrderModel();
+
 
         ObservableList<CartTm> OrderDetilsTmObservableList = FXCollections.observableArrayList();
         try {
-            List<OrderDetailsDto> orderDetailsDtos = model.getAllOrderDetails();
+            List<OrderDetailsDto> orderDetailsDtos = new OrderDAOImpl().getAllOrderDetails();
             for (OrderDetailsDto dto : orderDetailsDtos) {
                 OrderDetilsTmObservableList.add(
                         new CartTm(
@@ -184,7 +181,6 @@ public class OrderFormController {
                                 Double.valueOf(dto.getUnitprice()),
                                 dto.getDate(),
                                 dto.getStatus()
-
                         )
                 );
             }
@@ -198,7 +194,7 @@ public class OrderFormController {
     private void generateNextOrderId() {
 
         try {
-            String orderId = OrderModel.generateNextOrderId();
+            String orderId = new OrderDAOImpl().generateNextOrderId();
             lblOrderId.setText(orderId);
         } catch (SQLException e) {
             throw new RuntimeException(e);

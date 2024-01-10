@@ -18,22 +18,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import lk.ijse.dao.custom.impl.AttadanceDAOImpl;
 import lk.ijse.dao.custom.impl.EmployeeDAOImpl;
 import lk.ijse.dto.AttandanceDto;
-import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.tm.AttandanceTm;
-import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.EmployeeTm;
-import lk.ijse.model.AttandanceModel;
-import lk.ijse.model.CustomerModel;
-import lk.ijse.model.EmployeeModel;
 import lk.ijse.qr.QrGenerator;
 import lk.ijse.util.RegExPatterns;
 import lk.ijse.util.SoundsAssits;
 import lk.ijse.util.SystemAlert;
 import lk.ijse.util.TxtColours;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -54,7 +49,6 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
-
 import javafx.scene.control.Alert;
 
 
@@ -66,10 +60,6 @@ public class EmployeeFormController {
     private JFXButton btnImageChoosers;
     @FXML
     private ImageView imageView;
-    @FXML
-    private ImageView btnImageChooser;
-    @FXML
-    private AnchorPane rootTestId;
     @FXML
     private JFXTextField txtEmployeeNIC;
     @FXML
@@ -169,7 +159,7 @@ public class EmployeeFormController {
     }
 
     public void loadAllEmployee() {
-        var model = new EmployeeModel();
+
 
         ObservableList<EmployeeTm> employeeTmObservableList = FXCollections.observableArrayList();
         try {
@@ -213,7 +203,7 @@ public class EmployeeFormController {
             }
             return;
         }
-        EmployeeModel model = new EmployeeModel();
+
         try {
             EmployeeDto dto = new EmployeeDAOImpl().search(employeeIDText);
             if(dto!=null){
@@ -300,7 +290,7 @@ public class EmployeeFormController {
 
 
         EmployeeDto dto = new EmployeeDto(employeeIDText, employeeNameText, employeeNICText, employeeAddressText);
-        EmployeeModel model = new EmployeeModel();
+
 
         try {
             boolean isSaved = new EmployeeDAOImpl().save(dto);
@@ -530,7 +520,7 @@ public class EmployeeFormController {
         }
         String employeeId = txtEmployeerId.getText();
 
-        EmployeeModel model = new EmployeeModel();
+
         try {
             boolean isDeleted = new EmployeeDAOImpl().delete(employeeId);
             if (isDeleted){
@@ -607,8 +597,7 @@ public class EmployeeFormController {
     public void setQrDetails() throws SQLException {
 
         String employeeId = (String) cmbQrEmployeeId.getValue();
-        EmployeeModel model = new EmployeeModel();
-        EmployeeDto dto = model.searchEmployee(employeeId);
+        EmployeeDto dto = new EmployeeDAOImpl().search(employeeId);
         lblQrAddress.setText(dto.getEmployeeAddress());
         lblQrName.setText(dto.getEmployeeName());
         lblQrNic.setText(dto.getEmployeeNIC());
@@ -693,7 +682,7 @@ public class EmployeeFormController {
         return true;
     }
     public void setDetails() throws SQLException {
-        EmployeeDto dto = new EmployeeModel().searchEmployee(Employeeid);
+        EmployeeDto dto = new EmployeeDAOImpl().search(Employeeid);
 
             lblQrScannerId.setText(dto.getEmployeeid());
             lblQrScannerName.setText(dto.getEmployeeName());
@@ -703,8 +692,7 @@ public class EmployeeFormController {
 
     public void btnAttadanceOnAction(ActionEvent actionEvent) throws SQLException {
         LocalDate date = LocalDate.now();
-        AttandanceModel model1 = new AttandanceModel();
-         boolean isExist = model1.isExist(date);
+        boolean isExist =  new AttadanceDAOImpl().isExist(date);
          if (isExist) {
              new SystemAlert(Alert.AlertType.ERROR, "Error", "Attandance Already Taken!", ButtonType.OK).show();
              return;
@@ -722,9 +710,9 @@ public class EmployeeFormController {
         String scannerStatus =  lblQrScannerAddress.getText();
 
         AttandanceDto dto = new AttandanceDto(scannerIdText, scannerNameText, scannerDate, scannerNicText, scannerStatus);
-        AttandanceModel model = new AttandanceModel();
+
         try {
-           boolean addAttandance = model.addAttandance(dto);
+           boolean addAttandance = new AttadanceDAOImpl().addAttandance(dto);
             if (addAttandance) {
                 new SystemAlert(Alert.AlertType.INFORMATION, "Success", "Attandance Added successfully!", ButtonType.OK).show();
             }else {
@@ -739,11 +727,9 @@ public class EmployeeFormController {
     }
 
     public void loadAllCustomer(){
-        var model = new AttandanceModel();
-
         ObservableList<AttandanceTm> tmObservableList = FXCollections.observableArrayList();
         try {
-            List<AttandanceDto> attandanceDto =model.getAttandanceDetails();
+            List<AttandanceDto> attandanceDto = new AttadanceDAOImpl().getAttandanceDetails();
             for (AttandanceDto dto : attandanceDto ){
                 tmObservableList.add(
                         new AttandanceTm(
@@ -772,11 +758,10 @@ public class EmployeeFormController {
 
     @FXML
     public void DatePickerOnAction(ActionEvent actionEvent)  {
-        var model = new AttandanceModel();
         LocalDate date = LocalDate.parse(DatePicker.getValue().toString());
         ObservableList<AttandanceTm> attendance = null;
         try {
-            attendance = model.getAttendanceOfDay(String.valueOf(date));
+            attendance = new AttadanceDAOImpl().getAttendanceOfDay(String.valueOf(date));
             tblAttandance.setItems(attendance);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).showAndWait();

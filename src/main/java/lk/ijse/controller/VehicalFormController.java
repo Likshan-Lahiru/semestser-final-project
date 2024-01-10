@@ -11,19 +11,16 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.dao.custom.impl.VehicleDAOImpl;
-import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.VehicleDto;
 import lk.ijse.dto.tm.VehicleTm;
-import lk.ijse.model.VehicleModel;
 import lk.ijse.util.RegExPatterns;
 import lk.ijse.util.SystemAlert;
 import lk.ijse.util.TxtColours;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.regex.Pattern;
+
 
 public class VehicalFormController {
 
@@ -74,8 +71,6 @@ public class VehicalFormController {
 
     }
     public void loadAllvehicle(){
-        var model = new VehicleModel();
-
         ObservableList<VehicleTm> vehicleTmObservableList = FXCollections.observableArrayList();
         try {
             List<VehicleDto>  vehicleDtos =new VehicleDAOImpl().getAll();
@@ -129,10 +124,7 @@ public class VehicalFormController {
 
         VehicleDto dto = new VehicleDto(txtVehicleIdText, txtNumPlateNoText, txtVehicleStatusText, pickerLastServiceDateValue);
 
-        VehicleModel model = new VehicleModel();
-
         try {
-
             boolean isSaved = new VehicleDAOImpl().save(dto);
             if (isSaved){
                 new SystemAlert(Alert.AlertType.CONFIRMATION,"Confirmation","New Vehicle details is Saved!", ButtonType.OK).show();
@@ -174,7 +166,6 @@ public class VehicalFormController {
         String pickerLastServiceDateValue = String.valueOf(pickerLastServiceDate.getValue());
 
         VehicleDto dto = new VehicleDto(txtVehicleIdText, txtNumPlateNoText, txtVehicleStatusText, pickerLastServiceDateValue);
-        VehicleModel model = new VehicleModel();
         try {
            boolean isUpdated =  new VehicleDAOImpl().update(dto);
            if (isUpdated){

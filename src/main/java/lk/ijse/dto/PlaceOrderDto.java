@@ -21,6 +21,11 @@ public class PlaceOrderDto {
     private String name;
 
 
+    public PlaceOrderDto(String customerId, String orderId, String orderDate, String name) {
 
-
+        this.customerId = customerId;
+        this.orderId = orderId;
+        this.orderDate = orderDate;
+        this.name = name;
+    }
 }

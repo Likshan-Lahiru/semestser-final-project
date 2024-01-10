@@ -8,10 +8,7 @@ import lk.ijse.dto.ToolDto;
 import lk.ijse.dto.ToolWasteDetailDto;
 import lk.ijse.dto.tm.CartTm;
 import lk.ijse.dto.tm.StockListTm;
-import lk.ijse.model.StockListModel;
-import lk.ijse.model.ToolModel;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -138,8 +135,7 @@ public class ToolDAOImpl implements ToolDAO {
 
     @Override
     public boolean addToolWasteDetail(ToolWasteDetailDto dto) throws SQLException {
-        ToolModel toolModel = new ToolModel();
-        StockListModel stockListModel  =new StockListModel();
+
         boolean result = false;
         Connection connection = null;
         try {
@@ -148,7 +144,7 @@ public class ToolDAOImpl implements ToolDAO {
 
             boolean isUpdated = new ToolDAOImpl().updateWasteQty(dto);
             if(isUpdated) {
-                boolean isUpdated2 = stockListModel.updateWasteQty(dto);
+                boolean isUpdated2 = new StockListDAOImpl().updateWasteQty(dto);
                 if(isUpdated2) {
                     connection.commit();
                     result = true;

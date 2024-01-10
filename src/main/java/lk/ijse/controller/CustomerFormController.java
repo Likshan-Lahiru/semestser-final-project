@@ -10,26 +10,21 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.tm.CustomerTm;
-import lk.ijse.model.CustomerModel;
 import lk.ijse.util.RegExPatterns;
 import lk.ijse.util.SoundsAssits;
 import lk.ijse.util.SystemAlert;
 import lk.ijse.util.TxtColours;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.regex.Pattern;
+
 
 public class CustomerFormController {
     @FXML
     private AnchorPane root;
-    @FXML
-    private JFXToggleButton soundsAssistToggelBtn;
     @FXML
     private JFXTextField txtCustomerContactNumber;
     @FXML

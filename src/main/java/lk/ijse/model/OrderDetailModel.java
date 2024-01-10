@@ -11,8 +11,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class OrderDetailModel {
-   private final ToolModel toolModel = new ToolModel();
-    public static boolean saveOrderDetail(String orderId, List<CartTm> cartTms) throws SQLException {
+
+   /* public static boolean saveOrderDetail(String orderId, List<CartTm> cartTms) throws SQLException {
         for (CartTm cartTm : cartTms) {
             if(!saveOrderDetail(orderId, cartTm)) {
 
@@ -82,7 +82,7 @@ public class OrderDetailModel {
       boolean isUpdate =  pstm.executeUpdate()>0;
 
         return isUpdate;
-    }
+    }*/
 
 
 }

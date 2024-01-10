@@ -43,7 +43,14 @@ public class VehicleDAOImpl implements VehicleDAO {
 
     @Override
     public boolean update(VehicleDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "UPDATE vehical SET status=?, last_service_date=?, number_plate_no=? WHERE vehical_id=?";
+        return SQLUtil.execute(sql,
+                dto.getVehicleStatus(),
+                dto.getLastServiceDate(),
+                dto.getNumberPlateNo(),
+                dto.getVehicleId()
+        );
+        /*Connection connection = DbConnection.getInstance().getConnection();
         String sql = "UPDATE vehical SET status=?, last_service_date=?, number_plate_no=? WHERE vehical_id=?";
         PreparedStatement pstm = connection.prepareStatement(sql);
 
@@ -54,19 +61,21 @@ public class VehicleDAOImpl implements VehicleDAO {
         pstm.setString(4, dto.getVehicleId());
 
         boolean isUpdated = pstm.executeUpdate()>0;
-        return isUpdated;
+        return isUpdated;*/
     }
 
     @Override
     public boolean delete(String txtVehicleIdText) throws SQLException {
-        DbConnection connection = DbConnection.getInstance();
+        String sql = "DELETE FROM vehical WHERE vehical_id=?";
+        return SQLUtil.execute(sql,txtVehicleIdText);
+        /* DbConnection connection = DbConnection.getInstance();
         String sql = "DELETE FROM vehical WHERE vehical_id=?";
         PreparedStatement pstm = connection.getConnection().prepareStatement(sql);
 
         pstm.setString(1, txtVehicleIdText);
 
         boolean isDeleted = pstm.executeUpdate() > 0;
-        return isDeleted;
+        return isDeleted;*/
     }
 
     @Override

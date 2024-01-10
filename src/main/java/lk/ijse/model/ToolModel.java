@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ToolModel {
-
     public boolean saveTool(ToolDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql ="INSERT INTO tool VALUES (?,?,?,?)";
@@ -162,9 +161,8 @@ public class ToolModel {
         return isDeleted;
     }
 
-    public boolean addToolWasteDetail(ToolWasteDetailDto dto) throws SQLException {
-         ToolModel toolModel = new ToolModel();
-         StockListModel stockListModel  =new StockListModel();
+    /*public boolean addToolWasteDetail(ToolWasteDetailDto dto) throws SQLException {
+        StockListModel stockListModel  =new StockListModel();
         boolean result = false;
         Connection connection = null;
         try {
@@ -188,7 +186,7 @@ public class ToolModel {
 
         return result;
 
-    }
+    }*/
 
     public boolean updateWasteQty(ToolWasteDetailDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();

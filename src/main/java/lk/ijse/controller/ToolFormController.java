@@ -13,7 +13,6 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.dao.custom.impl.ToolDAOImpl;
 import lk.ijse.dto.ToolDto;
 import lk.ijse.dto.tm.ToolTm;
-import lk.ijse.model.ToolModel;
 import lk.ijse.util.RegExPatterns;
 import lk.ijse.util.SoundsAssits;
 import lk.ijse.util.SystemAlert;
@@ -101,7 +100,7 @@ public class ToolFormController {
                             double perDayPriceText = Double.parseDouble(txtRentPerDayPrice.getText());
 
                             ToolDto dto = new ToolDto(toolIdText,toolNameText,qtyOnHandText,perDayPriceText);
-                            ToolModel model = new ToolModel();
+
 
                             try {
                                 boolean isSaved = new ToolDAOImpl().save(dto);
@@ -179,7 +178,7 @@ public class ToolFormController {
                             double rentPerDayPrice = Double.parseDouble(txtRentPerDayPrice.getText());
 
                             ToolDto dto = new ToolDto(toolIdText, toolNameText, qtyOnHandText, rentPerDayPrice);
-                            ToolModel model = new ToolModel();
+
                             try {
 
                                 boolean isUpdateTool = new ToolDAOImpl().update(dto);
@@ -264,8 +263,7 @@ public class ToolFormController {
             }
             return;
         }
-        ToolDto dto = new ToolDto(searchIdText);
-        ToolModel model = new ToolModel();
+
 
         try {
             ToolDto dto1 = new ToolDAOImpl().search(searchIdText);
@@ -352,9 +350,6 @@ public class ToolFormController {
 
                             String toolId = txtxToolId.getText();
 
-
-
-                            ToolModel model = new ToolModel();
                             try {
                                 boolean isDeleted = new ToolDAOImpl().delete(toolId);
                                 if(isDeleted){

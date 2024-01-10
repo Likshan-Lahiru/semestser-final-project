@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.OrderDetailDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.OrderDetailsDto;
@@ -25,12 +26,18 @@ public class OrderDeatilDAOImpl implements OrderDetailDAO {
         return true;
     }
 
-
-
-
     @Override
     public  boolean saveOrderDetail(String orderId, CartTm cartTm) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "INSERT INTO order_detail VALUES(?, ?, ?, ?,?,?)";
+       return SQLUtil.execute(sql,
+                cartTm.getToolId(),
+                orderId,
+                cartTm.getQty(),
+                cartTm.getRentPerDay(),
+                cartTm.getOrderDate(),
+                cartTm.getStatus()
+                );
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO order_detail VALUES(?, ?, ?, ?,?,?)";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -43,7 +50,7 @@ public class OrderDeatilDAOImpl implements OrderDetailDAO {
 
 
 
-        return pstm.executeUpdate() > 0;
+        return pstm.executeUpdate() > 0;*/
     }
     @Override
     public boolean returnOrderDetails(OrderDetailsDto dto) throws SQLException {
@@ -72,8 +79,13 @@ public class OrderDeatilDAOImpl implements OrderDetailDAO {
     }
     @Override
     public boolean updateReturnPrderDetail(OrderDetailsDto dto) throws SQLException {
-
-        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "UPDATE order_detail SET status = ?, order_date = CURRENT_DATE WHERE order_id = ?  AND tool_id = ?";
+        return SQLUtil.execute(sql,
+                dto.getStatus(),
+                dto.getOrderId(),
+                dto.getToolId()
+        );
+        /*Connection connection = DbConnection.getInstance().getConnection();
         String sql = "UPDATE order_detail SET status = ?, order_date = CURRENT_DATE WHERE order_id = ?  AND tool_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
         pstm.setString(1, dto.getStatus());
@@ -82,6 +94,6 @@ public class OrderDeatilDAOImpl implements OrderDetailDAO {
 
         boolean isUpdate =  pstm.executeUpdate()>0;
 
-        return isUpdate;
+        return isUpdate;*/
     }
 }

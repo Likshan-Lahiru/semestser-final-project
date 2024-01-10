@@ -8,10 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class InviceModel {
+public class InvoiceModel {
 
-
-    public static boolean invoiceDetailsSave(String orderId, List<CartTm> cartTms) throws SQLException {
+    /*public static boolean invoiceDetailsSave(String orderId, List<CartTm> cartTms) throws SQLException {
         for (CartTm cartTm : cartTms) {
             if(!saveDetails(orderId, cartTm)) {
 
@@ -35,5 +34,5 @@ public class InviceModel {
 
        return pstm.executeUpdate() >0;
 
-    }
+    }*/
 }

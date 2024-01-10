@@ -12,13 +12,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dao.custom.impl.EmployeeDAOImpl;
-import lk.ijse.model.CustomerModel;
-import lk.ijse.model.EmployeeModel;
-import lk.ijse.model.OrderModel;
+import lk.ijse.dao.custom.impl.OrderDAOImpl;
 import lk.ijse.util.SoundsAssits;
 import lk.ijse.util.SystemAlert;
 import lombok.SneakyThrows;
-
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -80,7 +77,7 @@ public class DashBoardController implements Initializable {
         try {
             String totalCustomer = new CustomerDAOImpl().getTotalCustomers();
             String totalEmployee =  new EmployeeDAOImpl().getTotalEmployees();
-            String totalOrders = new OrderModel().getAllOrdersCount();
+            String totalOrders = new OrderDAOImpl().getAllOrdersCount();
             System.out.println(totalCustomer+" "+totalEmployee+" "+totalOrders);
             lblCustomer.setText(totalCustomer);
             lblEmployee.setText(totalEmployee);

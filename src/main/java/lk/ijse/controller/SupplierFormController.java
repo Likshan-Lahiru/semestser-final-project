@@ -13,11 +13,9 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.SupplierTm;
-import lk.ijse.model.SupplierModel;
 import lk.ijse.util.RegExPatterns;
 import lk.ijse.util.SystemAlert;
 import lk.ijse.util.TxtColours;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;

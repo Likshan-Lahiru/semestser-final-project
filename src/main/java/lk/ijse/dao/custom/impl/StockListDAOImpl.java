@@ -1,7 +1,7 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
-import lk.ijse.dao.custom.impl.SupplierToolDAOImpl;
-import lk.ijse.dao.custom.impl.ToolDAOImpl;
+import lk.ijse.dao.SQLUtil;
+import lk.ijse.dao.custom.StockListDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.StockListDto;
 import lk.ijse.dto.ToolWasteDetailDto;
@@ -10,10 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class StockListModel {
+public class StockListDAOImpl implements StockListDAO {
 
-
-    public static boolean addStockList(StockListDto stockListDto) throws SQLException {
+    @Override
+    public boolean addStockList(StockListDto stockListDto) throws SQLException {
         boolean result = false;
         Connection connection = null;
         try {
@@ -22,13 +22,13 @@ public class StockListModel {
             connection.setAutoCommit(false);
 
             boolean isUpdated = new ToolDAOImpl().addStockList(stockListDto.getStockListTms());
-           if(isUpdated) {
+            if(isUpdated) {
                 boolean isSaved = new SupplierToolDAOImpl().saveStockList(stockListDto.getStockListTms());
-               if(isSaved) {
+                if(isSaved) {
 
 
-                       connection.commit();
-                       result = true;
+                    connection.commit();
+                    result = true;
 
                 }
             }
@@ -42,20 +42,28 @@ public class StockListModel {
         return result;
     }
 
+    @Override
     public boolean updateWasteQty(ToolWasteDetailDto dto) throws SQLException {
-       Connection connection =  DbConnection.getInstance().getConnection();
+        String sql = "INSERT INTO tool_waste VALUES(?,?,?,?,?)";
+      return SQLUtil.execute(sql,
+                dto.getToolId(),
+                dto.getToolName(),
+                dto.getQtyOnhand(),
+                dto.getWasteCount(),
+                dto.getLastupdatedDate()
+        );
+        /*Connection connection =  DbConnection.getInstance().getConnection();
         String sql = "INSERT INTO tool_waste VALUES(?,?,?,?,?)";
         PreparedStatement pstm = connection.prepareStatement(sql);
         pstm.setString(1, dto.getToolId());
-        pstm.setString(2,dto.getToolName());
-        pstm.setInt(3,dto.getQtyOnhand());
+        pstm.setString(2,);
+        pstm.setInt(3,dto.);
         pstm.setString(4, dto.getWasteCount());
         pstm.setString(5, dto.getLastupdatedDate());
 
 
 
         boolean isUpdate = pstm.executeUpdate() > 0;
-        return isUpdate;
-
+        return isUpdate;*/
     }
 }

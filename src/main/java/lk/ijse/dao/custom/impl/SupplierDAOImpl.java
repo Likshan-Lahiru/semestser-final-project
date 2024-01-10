@@ -62,8 +62,9 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     @Override
-    public boolean update(SupplierDto dto) throws SQLException {String sql = "UPDATE supplier SET supplier_name=?, NIC=?, address=?, contact_number=? WHERE supplier_id=?";
-      return  SQLUtil.execute(sql,
+    public boolean update(SupplierDto dto) throws SQLException {
+        String sql = "UPDATE supplier SET supplier_name=?, NIC=?, address=?, contact_number=? WHERE supplier_id=?";
+        return  SQLUtil.execute(sql,
                 dto.getSupplierName(),
                 dto.getSupplierNIC(),
                 dto.getSupplierAddress(),

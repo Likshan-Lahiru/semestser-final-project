@@ -12,25 +12,21 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.dao.custom.impl.StockListDAOImpl;
 import lk.ijse.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.dao.custom.impl.ToolDAOImpl;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.StockListTm;
-import lk.ijse.model.StockListModel;
-import lk.ijse.model.SupplierModel;
-import lk.ijse.model.ToolModel;
 import lk.ijse.util.SystemAlert;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -138,7 +134,6 @@ public class toolStockController {
     }
 
     private void loadStockList() {
-        var model = new ToolModel();
 
         ObservableList<StockListTm> obList = FXCollections.observableArrayList();
 
@@ -342,7 +337,7 @@ public class toolStockController {
         }
         var stockListDto = new StockListDto(stockList);
         try {
-            boolean isAdded = StockListModel.addStockList(stockListDto);
+            boolean isAdded = new StockListDAOImpl().addStockList(stockListDto);
             if (isAdded) {
                 new SystemAlert(Alert.AlertType.INFORMATION, "Information", "Stock List Added Successfully!", ButtonType.OK).show();
                 tblSuppliedDetail.getItems().clear();
@@ -416,7 +411,6 @@ public class toolStockController {
         String lastUpdatedDate = String.valueOf(pickerStockListLastUpdateDate.getValue());
 
         ToolWasteDetailDto dto = new ToolWasteDetailDto(toolId,toolName,Integer.parseInt(qtyOnHand),String.valueOf(wasteCount),lastUpdatedDate);
-        ToolModel model = new ToolModel();
         try {
             boolean isAdded = new ToolDAOImpl().addToolWasteDetail(dto);
             if (isAdded) {
