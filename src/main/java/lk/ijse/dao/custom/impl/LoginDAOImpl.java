@@ -24,11 +24,8 @@ public class LoginDAOImpl implements LoginDAO {
 
     @Override
     public SignUpDto getName(String nameText) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
         String sql = "select * from user where user_name = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, nameText);
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute(sql,nameText);
         SignUpDto dto = null;
         if (resultSet.next()) {
             dto = new SignUpDto(
@@ -43,4 +40,5 @@ public class LoginDAOImpl implements LoginDAO {
 
         return dto;
     }
+
 }
