@@ -64,7 +64,6 @@ public class ToolFormController {
 
     }
     private void loadAllTool(){
-
         ObservableList<ToolTm> toolList = FXCollections.observableArrayList();
         try {
             List<ToolDto> dtoList = new ToolDAOImpl().getAll();
