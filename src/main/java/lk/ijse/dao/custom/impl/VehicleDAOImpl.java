@@ -25,26 +25,20 @@ public class VehicleDAOImpl implements VehicleDAO {
 
     @Override
     public ArrayList<VehicleDto> getAll() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
         String sql= "SELECT * FROM vehical ";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
+        ResultSet resultSet = SQLUtil.execute(sql);
         ArrayList<VehicleDto> vehicleDtos =new ArrayList<>();
-
-        ResultSet resultSet = pstm.executeQuery();
         while (resultSet.next()){
-            String vehical_id =resultSet.getString(1);
-            String status =resultSet.getString(2);
-            String last_service_date =resultSet.getString(3);
-            String number_plate_no  =resultSet.getString(4);
-
-
-            VehicleDto dto = new VehicleDto(vehical_id,status,last_service_date,number_plate_no);
+            VehicleDto dto = new VehicleDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4)
+            );
             vehicleDtos.add(dto);
         }
-
         return vehicleDtos;
+
     }
 
     @Override
