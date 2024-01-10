@@ -63,8 +63,6 @@ public class ToolFormController {
         colRentPerDayPrice.setCellValueFactory(new PropertyValueFactory<>("rentPerDay"));
 
     }
-
-
     private void loadAllTool(){
 
         ObservableList<ToolTm> toolList = FXCollections.observableArrayList();
