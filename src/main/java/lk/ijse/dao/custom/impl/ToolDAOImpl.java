@@ -31,9 +31,9 @@ public class ToolDAOImpl implements ToolDAO {
 
     @Override
     public ArrayList<ToolDto> getAll() throws SQLException {
-        String sql = "Select * FROM tool";
-        ArrayList<ToolDto> dtoList = new ArrayList<>();
+        String sql = "SELECT * FROM tool";
         ResultSet resultSet = SQLUtil.execute(sql);
+        ArrayList<ToolDto> dtoList = new ArrayList<>();
         while (resultSet.next()) {
             String toolId = resultSet.getString("tool_id");
             String toolName = resultSet.getString("tool_name");
@@ -44,6 +44,7 @@ public class ToolDAOImpl implements ToolDAO {
             dtoList.add(dto);
         }
         return dtoList;
+
     }
 
     @Override

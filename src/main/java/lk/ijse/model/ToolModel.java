@@ -41,10 +41,10 @@ public class ToolModel {
         ResultSet resultSet = pstm.executeQuery();
 
         while (resultSet.next()) {
-           String toolId = resultSet.getString("tool_id");
-           String toolName = resultSet.getString("tool_name");
-           int qtyOnHand = Integer.parseInt(String.valueOf(resultSet.getInt("qty_on_hand")));
-           double rentPerDayPrice =resultSet.getDouble("rent_per_day_price");
+            String toolId = resultSet.getString("tool_id");
+            String toolName = resultSet.getString("tool_name");
+            int qtyOnHand = Integer.parseInt(String.valueOf(resultSet.getInt("qty_on_hand")));
+            double rentPerDayPrice =resultSet.getDouble("rent_per_day_price");
 
             var dto = new ToolDto(toolId, toolName, qtyOnHand, rentPerDayPrice);
             dtoList.add(dto);
