@@ -165,15 +165,10 @@ public class ToolDAOImpl implements ToolDAO {
 
     @Override
     public boolean updateWasteQty(ToolWasteDetailDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
         String sql = "UPDATE tool SET qty_on_hand = qty_on_hand - ? WHERE tool_id = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, dto.getWasteCount());
-        pstm.setString(2, dto.getToolId());
-
-        boolean isUpdate = pstm.executeUpdate() > 0;
-
-
-        return isUpdate;
+        return SQLUtil.execute(sql,
+                dto.getWasteCount(),
+                dto.getToolId()
+        );
     }
 }
