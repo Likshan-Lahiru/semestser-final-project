@@ -1,5 +1,6 @@
 package lk.ijse.model;
 
+import lk.ijse.dao.custom.impl.OrderDAOImpl;
 import lk.ijse.dao.custom.impl.ToolDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.PlaceOrderDto;
@@ -8,9 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class OrderPlaceModel {
-
-    private final ToolModel toolModel = new ToolModel();
-    private final OrderDetailModel orderDetailModel =new OrderDetailModel();
+    /*private final OrderDetailModel orderDetailModel =new OrderDetailModel();
 
     public boolean placeOrder(PlaceOrderDto dto) throws SQLException {
       boolean result = false;
@@ -20,7 +19,7 @@ public class OrderPlaceModel {
             connection.setAutoCommit(false);
 
 
-            boolean isOrderSaved = OrderModel.saveOrder(dto.getCustomerId(),dto.getOrderId(),dto.getOrderDate(),dto.getName());
+            boolean isOrderSaved = new OrderDAOImpl().saveOrder(dto.getCustomerId(),dto.getOrderId(),dto.getOrderDate(),dto.getName());
          if (isOrderSaved) {
 
                 boolean isUpdated = new ToolDAOImpl().updateTool(dto.getCartTms());
@@ -44,5 +43,5 @@ public class OrderPlaceModel {
         return result;
 
 
-    }
+    }*/
 }

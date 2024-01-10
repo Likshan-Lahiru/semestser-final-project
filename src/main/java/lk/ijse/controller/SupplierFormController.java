@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import lk.ijse.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.SupplierTm;
@@ -83,7 +82,6 @@ public class SupplierFormController {
     }
 
     private void loadAllSupplier() {
-        var model = new SupplierModel();
 
         ObservableList<SupplierTm> supplierTmObservableList = FXCollections.observableArrayList();
         try {
@@ -121,7 +119,7 @@ public class SupplierFormController {
             new Alert(Alert.AlertType.ERROR, "Please Enter the Supplier Id").showAndWait();
             return;
         }
-        SupplierModel model = new SupplierModel();
+
         try {
             SupplierDto dto = new SupplierDAOImpl().search(searchSupplierIDText);
             if (dto != null) {
@@ -171,7 +169,7 @@ public class SupplierFormController {
             return;
         }
         String supplierId = txtSupplierId.getText();
-        SupplierModel model = new SupplierModel();
+
         try {
             boolean isDeleted = new SupplierDAOImpl().delete(supplierId);
             if (isDeleted){
@@ -240,7 +238,7 @@ public class SupplierFormController {
                 supplierContactNumberText
 
         );
-        SupplierModel model = new SupplierModel();
+
         try {
             boolean isUpdated = new SupplierDAOImpl().update(dto);
             if (isUpdated){
@@ -297,7 +295,6 @@ public class SupplierFormController {
         String supplierContactNumberText = txtSupplierContactNumber.getText();
 
             SupplierDto dto = new SupplierDto(supplierIdText, supplierNameText, supplierNICText, supplierAddressText, supplierContactNumberText);
-            SupplierModel model = new SupplierModel();
 
             try {
                 boolean isSaved = new SupplierDAOImpl().save(dto);

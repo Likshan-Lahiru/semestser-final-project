@@ -12,7 +12,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.dao.custom.impl.SignUpDAOImpl;
 import lk.ijse.dto.SignUpDto;
-import lk.ijse.model.SignUpModel;
 import lk.ijse.util.ButtonSounds;
 import lk.ijse.util.RegExPatterns;
 import lk.ijse.util.SystemAlert;

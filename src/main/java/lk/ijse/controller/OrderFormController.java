@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
+import lk.ijse.dao.custom.impl.OrderDeatilDAOImpl;
+import lk.ijse.dao.custom.impl.PlaceOrderDAOImpl;
 import lk.ijse.dao.custom.impl.ToolDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
@@ -383,9 +385,9 @@ public class OrderFormController {
         var dto = new PlaceOrderDto(orderId, customerId, orderDate, cartTmList, descriptionText);
 
 
-        OrderPlaceModel model = new OrderPlaceModel();
+
         try {
-            boolean isAdded = model.placeOrder(dto);
+            boolean isAdded = new PlaceOrderDAOImpl().placeOrder(dto);
             if (isAdded) {
 
                 new SystemAlert(Alert.AlertType.CONFIRMATION, "Information", "Order Successfully!", ButtonType.OK).show();
@@ -537,11 +539,11 @@ public class OrderFormController {
 
 
              OrderDetailsDto dto = new OrderDetailsDto(lblReOrderIdText, lblReToolIdText, lblReQtyText, txtReStatusText,date);
-            OrderDetailModel model = new OrderDetailModel();
+
 
 
             try {
-                boolean isUpdated = model.returnOrderDetails(dto);
+                boolean isUpdated = new OrderDeatilDAOImpl().returnOrderDetails(dto);
                 if (isUpdated) {
                     new SystemAlert(Alert.AlertType.CONFIRMATION, "Information", "Order Returned Successfully!", ButtonType.OK).show();
                     loadAllOrderDetails();
