@@ -76,7 +76,7 @@ public class SupplierDAOImpl implements SupplierDAO {
     @Override
     public boolean delete(String supplierId) throws SQLException {
         String sql = "DELETE FROM supplier WHERE supplier_id=?";
-        return SQLUtil.execute(sql);
+        return SQLUtil.execute(sql,supplierId);
     }
 
     @Override

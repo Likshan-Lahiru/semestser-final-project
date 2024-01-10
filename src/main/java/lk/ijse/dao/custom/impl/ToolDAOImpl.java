@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.ToolDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.OrderDetailsDto;
@@ -19,27 +20,20 @@ import java.util.List;
 public class ToolDAOImpl implements ToolDAO {
     @Override
     public boolean save(ToolDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
         String sql ="INSERT INTO tool VALUES (?,?,?,?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1,dto.getToolId());
-        pstm.setString(2,dto.getToolName());
-        pstm.setInt(3,dto.getQtyOnhand());
-        pstm.setDouble(4, dto.getRentPerDay());
-
-        return pstm.executeUpdate() > 0;
+       return SQLUtil.execute(sql,
+                dto.getToolId(),
+                dto.getToolName(),
+                dto.getQtyOnhand(),
+                dto.getRentPerDay()
+                );
     }
 
     @Override
     public ArrayList<ToolDto> getAll() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
         String sql = "Select * FROM tool";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
         ArrayList<ToolDto> dtoList = new ArrayList<>();
-        ResultSet resultSet = pstm.executeQuery();
-
+        ResultSet resultSet = SQLUtil.execute(sql);
         while (resultSet.next()) {
             String toolId = resultSet.getString("tool_id");
             String toolName = resultSet.getString("tool_name");
