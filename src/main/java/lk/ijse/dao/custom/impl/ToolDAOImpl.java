@@ -47,12 +47,9 @@ public class ToolDAOImpl implements ToolDAO {
     }
 
     @Override
-    public ToolDto search(String dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public ToolDto search(String ToolId) throws SQLException {
         String sql = "SELECT * FROM tool WHERE tool_id = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, dto);
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute(sql,ToolId);
         ToolDto toolDto = null;
         if (resultSet.next()){
             toolDto = new ToolDto(
@@ -61,26 +58,19 @@ public class ToolDAOImpl implements ToolDAO {
                     resultSet.getInt("qty_on_hand"),
                     resultSet.getDouble("rent_per_day_price")
             );
-
         }
         return toolDto;
     }
 
     @Override
     public boolean update(ToolDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
         String sql= "UPDATE tool SET  tool_name = ?, qty_on_hand = ?, rent_per_day_price = ? WHERE tool_id = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-
-        pstm.setString(1, dto.getToolName());
-        pstm.setInt(2,dto.getQtyOnhand());
-        pstm.setDouble(3,dto.getRentPerDay());
-        pstm.setString(4, dto.getToolId());
-
-
-        boolean isUpdate = pstm.executeUpdate() > 0;
-        return isUpdate;
+        return SQLUtil.execute(sql,
+                dto.getToolName(),
+                dto.getQtyOnhand(),
+                dto.getRentPerDay(),
+                dto.getToolId()
+                );
     }
 
     @Override
@@ -95,14 +85,12 @@ public class ToolDAOImpl implements ToolDAO {
 
     @Override
     public boolean updateQty(CartTm cartTm) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
         String sql = "UPDATE tool SET qty_on_hand = qty_on_hand - ? WHERE tool_id = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setInt(1, cartTm.getQty());
-        pstm.setString(2, cartTm.getToolId());
+       return SQLUtil.execute(sql,
+                cartTm.getQty(),
+                cartTm.getToolId()
 
-        return pstm.executeUpdate() > 0;
+        );
     }
 
     @Override
@@ -117,42 +105,27 @@ public class ToolDAOImpl implements ToolDAO {
 
     @Override
     public boolean updateQty2(StockListTm stockListTm) throws SQLException {
-        System.out.printf(String.valueOf(stockListTm.getQty()));
-        Connection connection = DbConnection.getInstance().getConnection();
         String sql = "UPDATE tool SET qty_on_hand = qty_on_hand + ? WHERE tool_id = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setInt(1, stockListTm.getQty());
-        pstm.setString(2, stockListTm.getToolId());
-
-
-
-        return pstm.executeUpdate() > 0;
+       return SQLUtil.execute(sql,
+                stockListTm.getQty(),
+                stockListTm.getToolId()
+        );
     }
 
     @Override
     public boolean updateToolReturnQty(OrderDetailsDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
         String sql = "UPDATE tool SET qty_on_hand = qty_on_hand + ? WHERE tool_id = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setInt(1, Integer.parseInt(dto.getQty()));
-        pstm.setString(2, dto.getToolId());
-        boolean issaved = pstm.executeUpdate()>0;
-
-
-        return issaved;
+       return SQLUtil.execute(sql,
+              dto.getQty(),
+              dto.getToolId()
+        );
     }
 
     @Override
     public boolean delete(String toolId) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
         String sql = "DELETE FROM tool WHERE tool_id = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,toolId);
+       return SQLUtil.execute(sql,toolId);
 
-        boolean isDeleted = pstm.executeUpdate()>0;
-
-        return isDeleted;
     }
 
     @Override
