@@ -88,7 +88,6 @@ public class ToolFormController {
 
 
     public void btnSaveOnActionS(ActionEvent actionEvent) {
-
         if(!(txtxToolId.getText().isEmpty()||txtToolName.getText().isEmpty()||txtToolQtyOnHand.getText().isEmpty()||txtRentPerDayPrice.getText().isEmpty())){
             if (RegExPatterns.gettoolId().matcher(txtxToolId.getText()).matches()){
                 TxtColours.setDefaultColours(txtxToolId);
