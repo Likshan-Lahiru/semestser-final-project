@@ -336,7 +336,6 @@ public class ToolFormController {
     }
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-
         if(!(txtxToolId.getText().isEmpty()||txtToolName.getText().isEmpty()||txtToolQtyOnHand.getText().isEmpty()||txtRentPerDayPrice.getText().isEmpty())){
 
             if (RegExPatterns.gettoolId().matcher(txtxToolId.getText()).matches()){
