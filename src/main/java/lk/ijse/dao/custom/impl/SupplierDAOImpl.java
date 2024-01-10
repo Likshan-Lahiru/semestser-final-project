@@ -62,8 +62,7 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     @Override
-    public boolean update(SupplierDto dto) throws SQLException {
-        String sql = "UPDATE supplier SET supplier_name=?, NIC=?, address=?, contact_number=? WHERE supplier_id=?";
+    public boolean update(SupplierDto dto) throws SQLException {String sql = "UPDATE supplier SET supplier_name=?, NIC=?, address=?, contact_number=? WHERE supplier_id=?";
       return  SQLUtil.execute(sql,
                 dto.getSupplierName(),
                 dto.getSupplierNIC(),
@@ -78,7 +77,6 @@ public class SupplierDAOImpl implements SupplierDAO {
         String sql = "DELETE FROM supplier WHERE supplier_id=?";
         return SQLUtil.execute(sql,supplierId);
     }
-
     @Override
     public String generateNewId() throws SQLException, ClassNotFoundException {
         return null;

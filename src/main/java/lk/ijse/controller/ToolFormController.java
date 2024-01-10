@@ -418,9 +418,6 @@ public class ToolFormController {
     }
 
     public void setMainFormController(MainFormController mainFormController) {
-
-            this.mainFormController = mainFormController;
-
-
+        this.mainFormController = mainFormController;
     }
 }

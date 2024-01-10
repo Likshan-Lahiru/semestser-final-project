@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.VehicleDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.VehicleDto;
@@ -13,18 +14,13 @@ import java.util.ArrayList;
 public class VehicleDAOImpl implements VehicleDAO {
     @Override
     public boolean save(VehicleDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
         String sql = "INSERT INTO vehical values (?,?,?,?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,dto.getVehicleId());
-        pstm.setString(2, dto.getVehicleStatus());
-        pstm.setString(3, dto.getLastServiceDate());
-        pstm.setString(4, dto.getNumberPlateNo());
-
-        boolean isSaved = pstm.executeUpdate() > 0;
-
-
-        return isSaved;
+        return   SQLUtil.execute(sql,
+                dto.getVehicleId(),
+                dto.getVehicleStatus(),
+                dto.getLastServiceDate(),
+                dto.getNumberPlateNo()
+                );
     }
 
     @Override
