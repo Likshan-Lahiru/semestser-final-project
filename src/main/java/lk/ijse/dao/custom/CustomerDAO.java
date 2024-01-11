@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public interface CustomerDAO extends CrudDAO<Customer> {
     String getTotalCustomers() throws SQLException;
-    CustomerDto searchCustomerId(String txtSearchCustomerIDText) throws SQLException;
+    Customer searchCustomerId(String txtSearchCustomerIDText) throws SQLException;
 
 
 }

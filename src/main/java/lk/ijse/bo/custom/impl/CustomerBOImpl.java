@@ -5,6 +5,7 @@ import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.entity.Customer;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -23,27 +24,65 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public ArrayList<CustomerDto> getAll() throws SQLException {
-        return null;
+         ArrayList<CustomerDto> customerDto = new ArrayList<>();
+        ArrayList<Customer> customerEntity = new CustomerDAOImpl().getAll();
+        for (Customer customer:customerEntity){
+            customerDto.add(new CustomerDto(
+                    customer.getCustomerId(),
+                    customer.getCustomerName(),
+                    customer.getCustomerAddress(),
+                    customer.getCustomerNic(),
+                    customer.getCustomerContactNumber(),
+                    customer.getCustomerEmail()
+                    ));
+        }
+        return customerDto;
     }
 
     @Override
     public CustomerDto search(String txtSearchCustomerContactText) throws SQLException {
-        return null;
+        Customer customer  = new CustomerDAOImpl().search(txtSearchCustomerContactText);
+         return new CustomerDto(
+         customer.getCustomerId(),
+         customer.getCustomerName(),
+         customer.getCustomerAddress(),
+         customer.getCustomerNic(),
+         customer.getCustomerContactNumber(),
+         customer.getCustomerEmail()
+        );
+
     }
 
     @Override
     public CustomerDto searchCustomerId(String txtSearchCustomerIDText) throws SQLException {
-        return null;
+        Customer customer = new CustomerDAOImpl().searchCustomerId(txtSearchCustomerIDText);
+       return new CustomerDto(
+                customer.getCustomerId(),
+                customer.getCustomerName(),
+                customer.getCustomerAddress(),
+                customer.getCustomerNic(),
+                customer.getCustomerContactNumber(),
+                customer.getCustomerEmail()
+        );
+
     }
 
     @Override
     public boolean update(CustomerDto dto) throws SQLException, ClassNotFoundException {
-        return false;
+      return new CustomerDAOImpl().update(
+                new Customer(
+                        dto.getCustomerId(),
+                        dto.getCustomerName(),
+                        dto.getCustomerAddress(),
+                        dto.getCustomerNic(),
+                        dto.getCustomerContactNumber(),
+                        dto.getCustomerEmail()
+                ));
     }
 
     @Override
     public boolean delete(String txtCustomerIdText) throws SQLException, ClassNotFoundException {
-        return false;
+        return new CustomerDAOImpl().delete(txtCustomerIdText);
     }
 
     @Override
@@ -53,6 +92,6 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public String getTotalCustomers() throws SQLException {
-        return null;
+        return new CustomerDAOImpl().getTotalCustomers();
     }
 }

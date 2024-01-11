@@ -23,23 +23,23 @@ public class CustomerDAOImpl implements CustomerDAO {
                 entity.getCustomerContactNumber(), entity.getCustomerEmail());
     }
     @Override
-    public ArrayList<CustomerDto> getAll() throws SQLException {
+    public ArrayList<Customer> getAll() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Customer");
-        ArrayList<CustomerDto> getAllCustomer=new ArrayList<>();
+        ArrayList<Customer> getAllCustomer=new ArrayList<>();
         while (rst.next()){
-            CustomerDto customerDto = new CustomerDto(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),
+            Customer customer = new Customer(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),
                     rst.getString(5),rst.getString(6));
-            getAllCustomer.add(customerDto);
+            getAllCustomer.add(customer);
         }
         return getAllCustomer;
     }
     @Override
-    public  CustomerDto search(String txtSearchCustomerContactText) throws SQLException {
+    public  Customer search(String txtSearchCustomerContactText) throws SQLException {
         String sql = "SELECT * FROM customer WHERE contact_number = ?";
        ResultSet resultSet = SQLUtil.execute(sql,txtSearchCustomerContactText);
-        CustomerDto customerDto = null;
+        Customer customer = null;
        while (resultSet.next()){
-           customerDto= new CustomerDto(
+           customer= new Customer(
                    resultSet.getString("customer_id"),
                    resultSet.getString("customer_name"),
                    resultSet.getString("address"),
@@ -48,15 +48,15 @@ public class CustomerDAOImpl implements CustomerDAO {
                    resultSet.getString("email")
            );
        }
-       return customerDto;
+       return customer;
     }
     @Override
-    public  CustomerDto searchCustomerId(String txtSearchCustomerIDText) throws SQLException {
+    public  Customer searchCustomerId(String txtSearchCustomerIDText) throws SQLException {
         String sql = "SELECT * FROM customer WHERE customer_id= ?";
         ResultSet resultSet = SQLUtil.execute(sql,txtSearchCustomerIDText);
-        CustomerDto dto = null;
+        Customer dto = null;
         if (resultSet.next()) {
-            dto = new CustomerDto(
+            dto = new Customer(
                     resultSet.getString("customer_id"),
                     resultSet.getString("customer_name"),
                     resultSet.getString("address"),
@@ -69,10 +69,10 @@ public class CustomerDAOImpl implements CustomerDAO {
         return dto;
     }
     @Override
-    public boolean update(CustomerDto dto) throws SQLException, ClassNotFoundException {
+    public boolean update(Customer Entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute("UPDATE customer SET customer_name=?,address=?,NIC=?,contact_number=? ,email=? WHERE customer_id=? ",
-                 dto.getCustomerName(),dto.getCustomerAddress(),dto.getCustomerNic(),
-                 dto.getCustomerContactNumber(),dto.getCustomerEmail(),dto.getCustomerId());
+                 Entity.getCustomerName(),Entity.getCustomerAddress(),Entity.getCustomerNic(),
+                 Entity.getCustomerContactNumber(),Entity.getCustomerEmail(),Entity.getCustomerId());
     }
     @Override
     public boolean delete(String txtCustomerIdText) throws SQLException, ClassNotFoundException {

@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.dao.custom.impl.*;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
@@ -219,7 +220,7 @@ public class OrderFormController {
     private void loadCustomerIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<CustomerDto> cusList = new CustomerDAOImpl().getAll();
+            List<CustomerDto> cusList = new CustomerBOImpl().getAll();
 
             for (CustomerDto dto : cusList) {
                 obList.add(dto.getCustomerId());
@@ -486,7 +487,7 @@ public class OrderFormController {
     public void cmbCustomerOnAction(ActionEvent actionEvent) throws SQLException {
        try {
            String id = (String) cmbCustomerIddd.getValue();
-           CustomerDto dto = new CustomerDAOImpl().searchCustomerId(id);
+           CustomerDto dto = new CustomerBOImpl().searchCustomerId(id);
            lblCustomerName.setText(dto.getCustomerName());
            lblCustomerEmail.setText(dto.getCustomerEmail());
        }catch (SQLException e){

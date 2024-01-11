@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.tm.CustomerTm;
@@ -75,11 +76,11 @@ public class CustomerFormController {
         colCustomerEmail.setCellValueFactory(new PropertyValueFactory<>("customerEmail"));
     }
     public void loadAllCustomer(){
-       var model = new CustomerDAOImpl();
+
 
         ObservableList<CustomerTm> customerTmObservableList = FXCollections.observableArrayList();
         try {
-            List<CustomerDto> customerDtoList =model.getAll();
+            List<CustomerDto> customerDtoList = new CustomerBOImpl().getAll();
             for (CustomerDto dto : customerDtoList){
                     customerTmObservableList.add(
                       new CustomerTm(
@@ -122,7 +123,7 @@ public class CustomerFormController {
         }
 
         try {
-            CustomerDto dto = new CustomerDAOImpl().search(txtSearchCustomerIDText);
+            CustomerDto dto = new CustomerBOImpl().search(txtSearchCustomerIDText);
             if(dto!=null){
                 cutomerSetField(dto);
             }else {
@@ -217,7 +218,7 @@ public class CustomerFormController {
         CustomerDto dto = new CustomerDto(txtCustomerIdText, txtCustomerNameText, txtCustomerAddressText, txtCustomerNICText, txtCustomerContactNumberText, customerEmailText);
 
         try {
-            boolean isSaved = new CustomerDAOImpl().save(dto);
+            boolean isSaved = new CustomerBOImpl().save(dto);
             if (isSaved){
                 loadAllCustomer();
                 new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Customer Enter successfully!", ButtonType.OK).show();
@@ -329,7 +330,7 @@ public class CustomerFormController {
 
 
         try {
-            boolean isUpdated = new CustomerDAOImpl().update(dto);
+            boolean isUpdated = new CustomerBOImpl().update(dto);
             if (isUpdated) {
                 new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Customer Update successfully!", ButtonType.OK).show();
 
