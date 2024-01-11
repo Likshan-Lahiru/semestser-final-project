@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.bo.custom.impl.ToolBOImpl;
 import lk.ijse.dao.custom.impl.ToolDAOImpl;
 import lk.ijse.dto.ToolDto;
 import lk.ijse.dto.tm.ToolTm;
@@ -65,7 +66,7 @@ public class ToolFormController {
     private void loadAllTool(){
         ObservableList<ToolTm> toolList = FXCollections.observableArrayList();
         try {
-            List<ToolDto> dtoList = new ToolDAOImpl().getAll();
+            List<ToolDto> dtoList = new ToolBOImpl().getAll();
             if (dtoList != null) {
                 for (ToolDto dto : dtoList) {
                     toolList.add(new ToolTm(
@@ -103,7 +104,7 @@ public class ToolFormController {
 
 
                             try {
-                                boolean isSaved = new ToolDAOImpl().save(dto);
+                                boolean isSaved = new ToolBOImpl().save(dto);
                                 if (isSaved){
                                     new SystemAlert(Alert.AlertType.CONFIRMATION,"SUCCESS","Tool Save Successfully!",ButtonType.CLOSE).show();
                                     try {
@@ -181,7 +182,7 @@ public class ToolFormController {
 
                             try {
 
-                                boolean isUpdateTool = new ToolDAOImpl().update(dto);
+                                boolean isUpdateTool = new ToolBOImpl().update(dto);
                                 if (isUpdateTool){
                                     new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Tool Updated successfully!", ButtonType.OK).show();
                                     try {
@@ -266,7 +267,7 @@ public class ToolFormController {
 
 
         try {
-            ToolDto dto1 = new ToolDAOImpl().search(searchIdText);
+            ToolDto dto1 = new ToolBOImpl().search(searchIdText);
             if (dto1 !=null){
                 toolSetFields(dto1);
             }else {

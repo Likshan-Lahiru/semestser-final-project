@@ -8,6 +8,8 @@ import lk.ijse.dto.ToolDto;
 import lk.ijse.dto.ToolWasteDetailDto;
 import lk.ijse.dto.tm.CartTm;
 import lk.ijse.dto.tm.StockListTm;
+import lk.ijse.entity.Tool;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,58 +18,58 @@ import java.util.List;
 
 public class ToolDAOImpl implements ToolDAO {
     @Override
-    public boolean save(ToolDto dto) throws SQLException {
+    public boolean save(Tool entity) throws SQLException {
         String sql ="INSERT INTO tool VALUES (?,?,?,?)";
        return SQLUtil.execute(sql,
-                dto.getToolId(),
-                dto.getToolName(),
-                dto.getQtyOnhand(),
-                dto.getRentPerDay()
+                entity.getToolId(),
+                entity.getToolName(),
+                entity.getQtyOnhand(),
+                entity.getRentPerDay()
                 );
     }
 
     @Override
-    public ArrayList<ToolDto> getAll() throws SQLException {
+    public ArrayList<Tool> getAll() throws SQLException {
         String sql = "SELECT * FROM tool";
         ResultSet resultSet = SQLUtil.execute(sql);
-        ArrayList<ToolDto> dtoList = new ArrayList<>();
+        ArrayList<Tool> entityList = new ArrayList<>();
         while (resultSet.next()) {
             String toolId = resultSet.getString("tool_id");
             String toolName = resultSet.getString("tool_name");
             int qtyOnHand = Integer.parseInt(String.valueOf(resultSet.getInt("qty_on_hand")));
             double rentPerDayPrice =resultSet.getDouble("rent_per_day_price");
 
-            var dto = new ToolDto(toolId, toolName, qtyOnHand, rentPerDayPrice);
-            dtoList.add(dto);
+            var entity = new Tool(toolId, toolName, qtyOnHand, rentPerDayPrice);
+            entityList.add(entity);
         }
-        return dtoList;
+        return entityList;
 
     }
 
     @Override
-    public ToolDto search(String ToolId) throws SQLException {
+    public Tool search(String ToolId) throws SQLException {
         String sql = "SELECT * FROM tool WHERE tool_id = ?";
         ResultSet resultSet = SQLUtil.execute(sql,ToolId);
-        ToolDto toolDto = null;
+        Tool tool = null;
         if (resultSet.next()){
-            toolDto = new ToolDto(
+            tool = new Tool(
                     resultSet.getString("tool_id"),
                     resultSet.getString("tool_name"),
                     resultSet.getInt("qty_on_hand"),
                     resultSet.getDouble("rent_per_day_price")
             );
         }
-        return toolDto;
+        return tool;
     }
 
     @Override
-    public boolean update(ToolDto dto) throws SQLException {
+    public boolean update(Tool entity) throws SQLException {
         String sql= "UPDATE tool SET  tool_name = ?, qty_on_hand = ?, rent_per_day_price = ? WHERE tool_id = ?";
         return SQLUtil.execute(sql,
-                dto.getToolName(),
-                dto.getQtyOnhand(),
-                dto.getRentPerDay(),
-                dto.getToolId()
+                entity.getToolName(),
+                entity.getQtyOnhand(),
+                entity.getRentPerDay(),
+                entity.getToolId()
                 );
     }
 

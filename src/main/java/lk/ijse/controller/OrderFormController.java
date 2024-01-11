@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.bo.custom.impl.CustomerBOImpl;
+import lk.ijse.bo.custom.impl.ToolBOImpl;
 import lk.ijse.dao.custom.impl.*;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
@@ -205,7 +206,7 @@ public class OrderFormController {
     private void loadToolid() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<ToolDto> toolDtoList = new ToolDAOImpl().getAll();
+            List<ToolDto> toolDtoList = new ToolBOImpl().getAll();
 
             for (ToolDto toolDto : toolDtoList) {
                 obList.add(toolDto.getToolId());
@@ -455,7 +456,7 @@ public class OrderFormController {
         txtQty.requestFocus();
 
         try {
-            ToolDto dto = new ToolDAOImpl().search(toolid);
+            ToolDto dto = new ToolBOImpl().search(toolid);
 
             lblDescription.setText(dto.getToolName());
             lblRentPerDay.setText(String.valueOf(dto.getRentPerDay()));
@@ -473,7 +474,7 @@ public class OrderFormController {
         txtQty.requestFocus();
 
         try {
-            ToolDto dto = new ToolDAOImpl().search(code);
+            ToolDto dto = new ToolBOImpl().search(code);
 
             lblDescription.setText(dto.getToolName());
             lblRentPerDay.setText(String.valueOf(dto.getRentPerDay()));

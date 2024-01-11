@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.bo.custom.impl.SupplierBOImpl;
+import lk.ijse.bo.custom.impl.ToolBOImpl;
 import lk.ijse.dao.custom.impl.StockListDAOImpl;
 import lk.ijse.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.dao.custom.impl.ToolDAOImpl;
@@ -139,7 +140,7 @@ public class toolStockController {
         ObservableList<StockListTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<ToolDto> dtoList = new ToolDAOImpl().getAll();
+            List<ToolDto> dtoList = new ToolBOImpl().getAll();
 
             for (ToolDto dto : dtoList) {
                 obList.add(
@@ -169,7 +170,7 @@ public class toolStockController {
     private void loadToolid() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<ToolDto> toolDtoList = new ToolDAOImpl().getAll();
+            List<ToolDto> toolDtoList = new ToolBOImpl().getAll();
 
             for (ToolDto toolDto : toolDtoList) {
                 obList.add(toolDto.getToolId());
@@ -309,7 +310,7 @@ public class toolStockController {
 
 
         try {
-            ToolDto dto = new ToolDAOImpl().search(code);
+            ToolDto dto = new ToolBOImpl().search(code);
 
             lblToolName.setText(dto.getToolName());
             lblQtyOnHand.setText(String.valueOf(dto.getQtyOnhand()));
