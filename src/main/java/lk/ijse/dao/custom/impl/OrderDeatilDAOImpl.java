@@ -16,6 +16,7 @@ import java.util.List;
 public class OrderDeatilDAOImpl implements OrderDetailDAO {
     @Override
     public boolean saveOrderDetail(String orderId, List<CartTm> cartTms) throws SQLException {
+        System.out.println(orderId);
         for (CartTm cartTm : cartTms) {
             if(!saveOrderDetail(orderId, cartTm)) {
 

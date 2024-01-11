@@ -3,6 +3,8 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.custom.PlaceOrderDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.PlaceOrderDto;
+import lk.ijse.entity.PlaceOrder;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -10,21 +12,25 @@ public class PlaceOrderDAOImpl implements PlaceOrderDAO {
 
 
     @Override
-    public boolean placeOrder(PlaceOrderDto dto) throws SQLException {
+    public boolean placeOrder(PlaceOrder entity) throws SQLException {
         boolean result = false;
         Connection connection = null;
+        String orderId = entity.getOrderId();
+        String customerId = entity.getCustomerId();
+        System.out.println(orderId);
+        System.out.println(customerId);
         try {
             connection = DbConnection.getInstance().getConnection();
-            connection.setAutoCommit(false);
+           connection.setAutoCommit(false);
 
-            boolean isOrderSaved =  new OrderDAOImpl().saveOrder(dto.getCustomerId(),dto.getOrderId(),dto.getOrderDate(),dto.getName());
+            boolean isOrderSaved =  new OrderDAOImpl().saveOrder(entity.getOrderId(),customerId,entity.getOrderDate(),entity.getName());
             if (isOrderSaved) {
 
-                boolean isUpdated = new ToolDAOImpl().updateTool(dto.getCartTms());
+                boolean isUpdated = new ToolDAOImpl().updateTool(entity.getCartTms());
                 if(isUpdated) {
-                    boolean isOrderDetailSaved = new OrderDeatilDAOImpl().saveOrderDetail(dto.getOrderId(), dto.getCartTms());
-                    if(isOrderDetailSaved) {
-                        boolean isInvoiceSaved = new InvoiceDAOImpl().invoiceDetailsSave(dto.getOrderId(), dto.getCartTms());
+                    boolean isOrderDetailSaved = new OrderDeatilDAOImpl().saveOrderDetail(orderId, entity.getCartTms());
+                   if(isOrderDetailSaved) {
+                        boolean isInvoiceSaved = new InvoiceDAOImpl().invoiceDetailsSave(orderId, entity.getCartTms());
                         if (isInvoiceSaved) {
                             connection.commit();
                             result = true;

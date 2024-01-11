@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.bo.custom.impl.OrderDeatilBOImpl;
+import lk.ijse.bo.custom.impl.PlaceOrderBOImpl;
 import lk.ijse.bo.custom.impl.ToolBOImpl;
 import lk.ijse.dao.custom.impl.*;
 import lk.ijse.db.DbConnection;
@@ -386,7 +387,7 @@ public class OrderFormController {
 
 
         try {
-            boolean isAdded = new PlaceOrderDAOImpl().placeOrder(dto);
+            boolean isAdded = new PlaceOrderBOImpl().placeOrder(dto);
             if (isAdded) {
 
                 new SystemAlert(Alert.AlertType.CONFIRMATION, "Information", "Order Successfully!", ButtonType.OK).show();

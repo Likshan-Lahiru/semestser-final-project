@@ -8,7 +8,8 @@ import java.util.ArrayList;
 
 
 public class OrderDAOImpl {
-    public static boolean saveOrder(String customerId,String orderId,String orderDate, String name) throws SQLException {
+    public static boolean saveOrder(String orderId,String customerId,String orderDate, String name) throws SQLException {
+
         String sql = "INSERT INTO orders VALUES (?,?,?,?)";
         PlaceOrderDto dto = new PlaceOrderDto(customerId, orderId, orderDate, name);
         return SQLUtil.execute(sql,
