@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.bo.custom.impl.SupplierBOImpl;
 import lk.ijse.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.SupplierTm;
@@ -83,7 +84,7 @@ public class SupplierFormController {
 
         ObservableList<SupplierTm> supplierTmObservableList = FXCollections.observableArrayList();
         try {
-            List<SupplierDto> supplierDtoList = new SupplierDAOImpl().getAll();
+            List<SupplierDto> supplierDtoList = new SupplierBOImpl().getAll();
             for (SupplierDto dto : supplierDtoList) {
                 supplierTmObservableList.add(
                         new SupplierTm(
@@ -119,7 +120,7 @@ public class SupplierFormController {
         }
 
         try {
-            SupplierDto dto = new SupplierDAOImpl().search(searchSupplierIDText);
+            SupplierDto dto = new SupplierBOImpl().search(searchSupplierIDText);
             if (dto != null) {
                 SupplierSetField(dto);
             } else {
@@ -238,7 +239,7 @@ public class SupplierFormController {
         );
 
         try {
-            boolean isUpdated = new SupplierDAOImpl().update(dto);
+            boolean isUpdated = new SupplierBOImpl().update(dto);
             if (isUpdated){
                 new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Supplier Updated Successfully!", ButtonType.OK).show();
                 clearSupplierField();
@@ -295,7 +296,7 @@ public class SupplierFormController {
             SupplierDto dto = new SupplierDto(supplierIdText, supplierNameText, supplierNICText, supplierAddressText, supplierContactNumberText);
 
             try {
-                boolean isSaved = new SupplierDAOImpl().save(dto);
+                boolean isSaved = new SupplierBOImpl().save(dto);
                 if (isSaved) {
                     new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Supplier Saved Successfully!", ButtonType.OK).show();
 

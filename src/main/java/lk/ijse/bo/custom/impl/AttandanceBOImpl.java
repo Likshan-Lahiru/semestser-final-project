@@ -22,7 +22,6 @@ public class AttandanceBOImpl implements AttandanceBO {
         ));
         return false;
     }
-
     @Override
     public ArrayList<AttandanceDto> getAttandanceDetails() throws SQLException {
        ArrayList<Attandance> attandances  =   new AttadanceDAOImpl().getAttandanceDetails();
@@ -40,12 +39,10 @@ public class AttandanceBOImpl implements AttandanceBO {
 
        return dto;
     }
-
     @Override
     public boolean isExist(LocalDate date) throws SQLException {
         return false;
     }
-
     @Override
     public ObservableList<AttandanceTm> getAttendanceOfDay(String date) throws SQLException {
         return null;

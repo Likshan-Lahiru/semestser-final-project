@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.bo.custom.impl.SupplierBOImpl;
 import lk.ijse.dao.custom.impl.StockListDAOImpl;
 import lk.ijse.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.dao.custom.impl.ToolDAOImpl;
@@ -183,7 +184,7 @@ public class toolStockController {
     private void loadSupplierIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<SupplierDto> cusList = new SupplierDAOImpl().getAll();
+            List<SupplierDto> cusList = new SupplierBOImpl().getAll();
 
             for (SupplierDto dto : cusList) {
                 obList.add(dto.getSupplierId());
@@ -352,7 +353,7 @@ public class toolStockController {
 
     public void cmbSupplierIdOnAction(ActionEvent actionEvent) throws SQLException {
         String id = (String) cmbSupplierId.getValue();
-        SupplierDto dto = new SupplierDAOImpl().search(id);
+        SupplierDto dto = new SupplierBOImpl().search(id);
 
         lblSupplierName.setText(dto.getSupplierName());
     }
