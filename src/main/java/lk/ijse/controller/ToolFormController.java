@@ -10,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.ToolBO;
 import lk.ijse.bo.custom.impl.ToolBOImpl;
 import lk.ijse.dao.custom.impl.ToolDAOImpl;
 import lk.ijse.dto.ToolDto;
@@ -48,6 +50,9 @@ public class ToolFormController {
     private TableColumn <?,?> colToolID;
     @FXML
     private TableView <ToolTm>  tblTool;
+
+
+    ToolBO toolBO= (ToolBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.TOOL);
     SoundsAssits soundsAssits =  new SoundsAssits();
     MainFormController mainFormController = new MainFormController();
     public void initialize(){
@@ -66,7 +71,7 @@ public class ToolFormController {
     private void loadAllTool(){
         ObservableList<ToolTm> toolList = FXCollections.observableArrayList();
         try {
-            List<ToolDto> dtoList = new ToolBOImpl().getAll();
+            List<ToolDto> dtoList = toolBO.getAll();
             if (dtoList != null) {
                 for (ToolDto dto : dtoList) {
                     toolList.add(new ToolTm(
@@ -104,7 +109,7 @@ public class ToolFormController {
 
 
                             try {
-                                boolean isSaved = new ToolBOImpl().save(dto);
+                                boolean isSaved = toolBO.save(dto);
                                 if (isSaved){
                                     new SystemAlert(Alert.AlertType.CONFIRMATION,"SUCCESS","Tool Save Successfully!",ButtonType.CLOSE).show();
                                     try {
@@ -182,7 +187,7 @@ public class ToolFormController {
 
                             try {
 
-                                boolean isUpdateTool = new ToolBOImpl().update(dto);
+                                boolean isUpdateTool = toolBO.update(dto);
                                 if (isUpdateTool){
                                     new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Tool Updated successfully!", ButtonType.OK).show();
                                     try {
@@ -267,7 +272,7 @@ public class ToolFormController {
 
 
         try {
-            ToolDto dto1 = new ToolBOImpl().search(searchIdText);
+            ToolDto dto1 = toolBO.search(searchIdText);
             if (dto1 !=null){
                 toolSetFields(dto1);
             }else {
@@ -352,7 +357,7 @@ public class ToolFormController {
                             String toolId = txtxToolId.getText();
 
                             try {
-                                boolean isDeleted = new ToolDAOImpl().delete(toolId);
+                                boolean isDeleted = toolBO.delete(toolId);
                                 if(isDeleted){
                                     new SystemAlert(Alert.AlertType.CONFIRMATION,"Confirmation","Item Deleted successfully!",ButtonType.OK).show();
                                     try {
