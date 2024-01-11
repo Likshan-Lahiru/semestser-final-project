@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.bo.custom.impl.VehicleBOImpl;
 import lk.ijse.dao.custom.impl.VehicleDAOImpl;
 import lk.ijse.dto.VehicleDto;
 import lk.ijse.dto.tm.VehicleTm;
@@ -73,7 +74,7 @@ public class VehicalFormController {
     public void loadAllvehicle(){
         ObservableList<VehicleTm> vehicleTmObservableList = FXCollections.observableArrayList();
         try {
-            List<VehicleDto>  vehicleDtos =new VehicleDAOImpl().getAll();
+            List<VehicleDto>  vehicleDtos =new VehicleBOImpl().getAll();
             for (VehicleDto dto : vehicleDtos){
                 vehicleTmObservableList.add(
                         new VehicleTm(
@@ -125,7 +126,7 @@ public class VehicalFormController {
         VehicleDto dto = new VehicleDto(txtVehicleIdText, txtNumPlateNoText, txtVehicleStatusText, pickerLastServiceDateValue);
 
         try {
-            boolean isSaved = new VehicleDAOImpl().save(dto);
+            boolean isSaved = new VehicleBOImpl().save(dto);
             if (isSaved){
                 new SystemAlert(Alert.AlertType.CONFIRMATION,"Confirmation","New Vehicle details is Saved!", ButtonType.OK).show();
             }else {
@@ -167,7 +168,7 @@ public class VehicalFormController {
 
         VehicleDto dto = new VehicleDto(txtVehicleIdText, txtNumPlateNoText, txtVehicleStatusText, pickerLastServiceDateValue);
         try {
-           boolean isUpdated =  new VehicleDAOImpl().update(dto);
+           boolean isUpdated =  new VehicleBOImpl().update(dto);
            if (isUpdated){
                new SystemAlert(Alert.AlertType.CONFIRMATION,"Confirmation","Vehicle details is Updated!", ButtonType.OK).show();
            }else {

@@ -4,6 +4,8 @@ import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.VehicleDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.VehicleDto;
+import lk.ijse.entity.Vehicle;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,42 +15,42 @@ import java.util.ArrayList;
 
 public class VehicleDAOImpl implements VehicleDAO {
     @Override
-    public boolean save(VehicleDto dto) throws SQLException {
+    public boolean save(Vehicle entity) throws SQLException {
         String sql = "INSERT INTO vehical values (?,?,?,?)";
         return   SQLUtil.execute(sql,
-                dto.getVehicleId(),
-                dto.getVehicleStatus(),
-                dto.getLastServiceDate(),
-                dto.getNumberPlateNo()
+                entity.getVehicleId(),
+                entity.getVehicleStatus(),
+                entity.getLastServiceDate(),
+                entity.getNumberPlateNo()
                 );
     }
 
     @Override
-    public ArrayList<VehicleDto> getAll() throws SQLException {
+    public ArrayList<Vehicle> getAll() throws SQLException {
         String sql= "SELECT * FROM vehical ";
         ResultSet resultSet = SQLUtil.execute(sql);
-        ArrayList<VehicleDto> vehicleDtos =new ArrayList<>();
+        ArrayList<Vehicle> vehicleEntity =new ArrayList<>();
         while (resultSet.next()){
-            VehicleDto dto = new VehicleDto(
+            Vehicle entity = new Vehicle(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getString(4)
             );
-            vehicleDtos.add(dto);
+            vehicleEntity.add(entity);
         }
-        return vehicleDtos;
+        return vehicleEntity;
 
     }
 
     @Override
-    public boolean update(VehicleDto dto) throws SQLException {
+    public boolean update(Vehicle entity) throws SQLException {
         String sql = "UPDATE vehical SET status=?, last_service_date=?, number_plate_no=? WHERE vehical_id=?";
         return SQLUtil.execute(sql,
-                dto.getVehicleStatus(),
-                dto.getLastServiceDate(),
-                dto.getNumberPlateNo(),
-                dto.getVehicleId()
+                entity.getVehicleStatus(),
+                entity.getLastServiceDate(),
+                entity.getNumberPlateNo(),
+                entity.getVehicleId()
         );
         /*Connection connection = DbConnection.getInstance().getConnection();
         String sql = "UPDATE vehical SET status=?, last_service_date=?, number_plate_no=? WHERE vehical_id=?";
@@ -84,7 +86,7 @@ public class VehicleDAOImpl implements VehicleDAO {
     }
 
     @Override
-    public VehicleDto search(String id) throws SQLException, ClassNotFoundException {
+    public Vehicle search(String id) throws SQLException, ClassNotFoundException {
         return null;
     }
 }
