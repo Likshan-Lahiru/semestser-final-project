@@ -10,6 +10,10 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.OrderDeatilBO;
+import lk.ijse.bo.custom.SupplierBO;
+import lk.ijse.bo.custom.impl.OrderDeatilBOImpl;
 import lk.ijse.bo.custom.impl.SupplierBOImpl;
 import lk.ijse.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.dto.SupplierDto;
@@ -51,6 +55,7 @@ public class SupplierFormController {
     private TableColumn<?, ?> colSupplierName;
     @FXML
     private TableColumn<?, ?> colSupplierD;
+    SupplierBO supplierBO= (SupplierBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.SUPPLIER);
 
     public void initialize() {
         supplierCellvalueFactory();
@@ -84,7 +89,7 @@ public class SupplierFormController {
 
         ObservableList<SupplierTm> supplierTmObservableList = FXCollections.observableArrayList();
         try {
-            List<SupplierDto> supplierDtoList = new SupplierBOImpl().getAll();
+            List<SupplierDto> supplierDtoList = supplierBO.getAll();
             for (SupplierDto dto : supplierDtoList) {
                 supplierTmObservableList.add(
                         new SupplierTm(
@@ -120,7 +125,7 @@ public class SupplierFormController {
         }
 
         try {
-            SupplierDto dto = new SupplierBOImpl().search(searchSupplierIDText);
+            SupplierDto dto = supplierBO.search(searchSupplierIDText);
             if (dto != null) {
                 SupplierSetField(dto);
             } else {
@@ -170,7 +175,7 @@ public class SupplierFormController {
         String supplierId = txtSupplierId.getText();
 
         try {
-            boolean isDeleted = new SupplierDAOImpl().delete(supplierId);
+            boolean isDeleted = supplierBO.delete(supplierId);
             if (isDeleted){
                 new SystemAlert(Alert.AlertType.CONFIRMATION, "Success", "Supplier Deleted Successfully!", ButtonType.OK).show();
                 clearSupplierField();
@@ -239,7 +244,7 @@ public class SupplierFormController {
         );
 
         try {
-            boolean isUpdated = new SupplierBOImpl().update(dto);
+            boolean isUpdated = supplierBO.update(dto);
             if (isUpdated){
                 new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Supplier Updated Successfully!", ButtonType.OK).show();
                 clearSupplierField();
@@ -296,7 +301,7 @@ public class SupplierFormController {
             SupplierDto dto = new SupplierDto(supplierIdText, supplierNameText, supplierNICText, supplierAddressText, supplierContactNumberText);
 
             try {
-                boolean isSaved = new SupplierBOImpl().save(dto);
+                boolean isSaved = supplierBO.save(dto);
                 if (isSaved) {
                     new SystemAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Supplier Saved Successfully!", ButtonType.OK).show();
 

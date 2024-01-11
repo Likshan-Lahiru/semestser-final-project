@@ -10,6 +10,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.OrderDeatilBO;
+import lk.ijse.bo.custom.SignUpBO;
+import lk.ijse.bo.custom.impl.OrderDeatilBOImpl;
 import lk.ijse.bo.custom.impl.SignUpBOImpl;
 import lk.ijse.dao.custom.impl.SignUpDAOImpl;
 import lk.ijse.dto.SignUpDto;
@@ -33,6 +37,7 @@ public class SignUPFormController {
     private JFXTextField txtEmail;
     @FXML
     private AnchorPane root;
+    SignUpBO signUpBO= (SignUpBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.SIGNUP);
 
     public void btnCreateAccountOnAction(ActionEvent actionEvent) {
         String FirstName = txtFirstName.getText();
@@ -93,7 +98,7 @@ public class SignUPFormController {
 
 
         try {
-            boolean isCreateAccount = new SignUpBOImpl().createAccount(dto);
+            boolean isCreateAccount = signUpBO.createAccount(dto);
             if (isCreateAccount){
                new SystemAlert(Alert.AlertType.INFORMATION, "Information", "Account Created Successfully").show();
                 resetBoarderColor();
