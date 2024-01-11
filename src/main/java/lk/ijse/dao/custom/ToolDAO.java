@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface ToolDAO extends CrudDAO<Tool> {
 
-    boolean updateTool(List<CartTm> tmList) throws SQLException;
+     boolean  updateTool(List<CartTm> tmList) throws SQLException;
     boolean updateQty(CartTm cartTm) throws SQLException;
     boolean addStockList(List<StockListTm> stockListTms) throws SQLException;
     boolean updateQty2(StockListTm stockListTm) throws SQLException;

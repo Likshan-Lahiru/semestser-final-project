@@ -1,17 +1,23 @@
 package lk.ijse.bo.custom.impl;
 
 import lk.ijse.bo.custom.ToolBO;
+import lk.ijse.dao.custom.LoginDAO;
+import lk.ijse.dao.custom.ToolDAO;
 import lk.ijse.dao.custom.impl.ToolDAOImpl;
+import lk.ijse.dao.factory.DAOFactory;
 import lk.ijse.dto.ToolDto;
 import lk.ijse.entity.Tool;
+import lombok.SneakyThrows;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ToolBOImpl implements ToolBO {
+    ToolDAO toolDAO= (ToolDAOImpl) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.TOOL);
+    @SneakyThrows
     @Override
     public boolean save(ToolDto dto) throws SQLException {
-        return new ToolDAOImpl().save(
+        return toolDAO.save(
                 new Tool(
                         dto.getToolId(),
                         dto.getToolName(),
@@ -21,11 +27,11 @@ public class ToolBOImpl implements ToolBO {
         );
 
     }
-
+    @SneakyThrows
     @Override
     public ArrayList<ToolDto> getAll() throws SQLException {
         ArrayList<ToolDto>  toolDtos = new ArrayList<>();
-        ArrayList<Tool> toolArrayList = new ToolDAOImpl().getAll();
+        ArrayList<Tool> toolArrayList = toolDAO.getAll();
         for (Tool tool:toolArrayList){
           ToolDto toolDto = new ToolDto(
                     tool.getToolId(),
@@ -37,10 +43,10 @@ public class ToolBOImpl implements ToolBO {
         }
         return toolDtos;
     }
-
+    @SneakyThrows
     @Override
     public ToolDto search(String ToolId) throws SQLException {
-       Tool tool = new ToolDAOImpl().search(ToolId);
+       Tool tool = toolDAO.search(ToolId);
         return new ToolDto(
                tool.getToolId(),
                tool.getToolName(),
@@ -49,10 +55,10 @@ public class ToolBOImpl implements ToolBO {
        );
 
     }
-
+    @SneakyThrows
     @Override
     public boolean update(ToolDto dto) throws SQLException {
-        return new ToolDAOImpl().update(
+        return toolDAO.update(
                 new Tool(
                         dto.getToolId(),
                         dto.getToolName(),
@@ -62,9 +68,9 @@ public class ToolBOImpl implements ToolBO {
         );
 
     }
-
+    @SneakyThrows
     @Override
     public boolean delete(String toolId) throws SQLException {
-        return new ToolDAOImpl().delete(toolId);
+        return toolDAO.delete(toolId);
     }
 }

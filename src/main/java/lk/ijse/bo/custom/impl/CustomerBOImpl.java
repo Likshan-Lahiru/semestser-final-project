@@ -1,16 +1,19 @@
 package lk.ijse.bo.custom.impl;
 
 import lk.ijse.bo.custom.CustomerBO;
+import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
+import lk.ijse.dao.factory.DAOFactory;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.entity.Customer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CustomerBOImpl implements CustomerBO {
+    CustomerDAO customerDAO= (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
     @Override
-    public boolean save(CustomerDto dto) throws SQLException {
-        return new CustomerDAOImpl().save(new Customer(
+    public boolean save(CustomerDto dto) throws SQLException, ClassNotFoundException {
+        return customerDAO.save(new Customer(
                 dto.getCustomerId(),
                 dto.getCustomerName(),
                 dto.getCustomerAddress(),
@@ -21,9 +24,9 @@ public class CustomerBOImpl implements CustomerBO {
     }
 
     @Override
-    public ArrayList<CustomerDto> getAll() throws SQLException {
+    public ArrayList<CustomerDto> getAll() throws SQLException, ClassNotFoundException {
          ArrayList<CustomerDto> customerDto = new ArrayList<>();
-        ArrayList<Customer> customerEntity = new CustomerDAOImpl().getAll();
+        ArrayList<Customer> customerEntity = customerDAO.getAll();
         for (Customer customer:customerEntity){
             customerDto.add(new CustomerDto(
                     customer.getCustomerId(),
@@ -38,8 +41,8 @@ public class CustomerBOImpl implements CustomerBO {
     }
 
     @Override
-    public CustomerDto search(String txtSearchCustomerContactText) throws SQLException {
-        Customer customer  = new CustomerDAOImpl().search(txtSearchCustomerContactText);
+    public CustomerDto search(String txtSearchCustomerContactText) throws SQLException, ClassNotFoundException {
+        Customer customer  = customerDAO.search(txtSearchCustomerContactText);
          return new CustomerDto(
          customer.getCustomerId(),
          customer.getCustomerName(),
@@ -53,7 +56,7 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public CustomerDto searchCustomerId(String txtSearchCustomerIDText) throws SQLException {
-        Customer customer = new CustomerDAOImpl().searchCustomerId(txtSearchCustomerIDText);
+        Customer customer = customerDAO.searchCustomerId(txtSearchCustomerIDText);
        return new CustomerDto(
                 customer.getCustomerId(),
                 customer.getCustomerName(),
@@ -67,7 +70,7 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public boolean update(CustomerDto dto) throws SQLException, ClassNotFoundException {
-      return new CustomerDAOImpl().update(
+      return customerDAO.update(
                 new Customer(
                         dto.getCustomerId(),
                         dto.getCustomerName(),
@@ -80,7 +83,7 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public boolean delete(String txtCustomerIdText) throws SQLException, ClassNotFoundException {
-        return new CustomerDAOImpl().delete(txtCustomerIdText);
+        return customerDAO.delete(txtCustomerIdText);
     }
 
     @Override
@@ -90,6 +93,6 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public String getTotalCustomers() throws SQLException {
-        return new CustomerDAOImpl().getTotalCustomers();
+        return customerDAO.getTotalCustomers();
     }
 }

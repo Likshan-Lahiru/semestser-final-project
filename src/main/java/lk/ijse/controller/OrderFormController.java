@@ -12,11 +12,13 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.bo.custom.impl.CustomerBOImpl;
-import lk.ijse.bo.custom.impl.OrderDeatilBOImpl;
-import lk.ijse.bo.custom.impl.PlaceOrderBOImpl;
-import lk.ijse.bo.custom.impl.ToolBOImpl;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.*;
+import lk.ijse.bo.custom.impl.*;
+import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.dao.custom.OrderDetailDAO;
 import lk.ijse.dao.custom.impl.*;
+import lk.ijse.dao.factory.DAOFactory;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
@@ -113,7 +115,12 @@ public class OrderFormController {
     private final ObservableList<CartTm> obList = FXCollections.observableArrayList();
     @FXML
     private Label lblCustomerEmail;
+    ToolBO toolBO= (ToolBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.TOOL);
+    OrderBO orderBO= (OrderBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.ORDER);
+    CustomerBO customerBO= (CustomerBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.CUSTOMER);
 
+    PlaceOrderBO placeOrderBO= (PlaceOrderBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.ORDERPLACE);
+    OrderDeatilBO orderDeatilBO= (OrderDeatilBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.ORDERDETAILS);
     public OrderFormController() {
     }
 
@@ -175,7 +182,7 @@ public class OrderFormController {
 
         ObservableList<CartTm> OrderDetilsTmObservableList = FXCollections.observableArrayList();
         try {
-            List<OrderDetailsDto> orderDetailsDtos = new OrderDAOImpl().getAllOrderDetails();
+            List<OrderDetailsDto> orderDetailsDtos = orderBO.getAllOrderDetails();
             for (OrderDetailsDto dto : orderDetailsDtos) {
                 OrderDetilsTmObservableList.add(
                         new CartTm(
@@ -198,7 +205,7 @@ public class OrderFormController {
     private void generateNextOrderId() {
 
         try {
-            String orderId = new OrderDAOImpl().generateNextOrderId();
+            String orderId = orderBO.generateNextOrderId();
             lblOrderId.setText(orderId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -208,7 +215,7 @@ public class OrderFormController {
     private void loadToolid() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<ToolDto> toolDtoList = new ToolBOImpl().getAll();
+            List<ToolDto> toolDtoList = toolBO.getAll();
 
             for (ToolDto toolDto : toolDtoList) {
                 obList.add(toolDto.getToolId());
@@ -223,13 +230,15 @@ public class OrderFormController {
     private void loadCustomerIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<CustomerDto> cusList = new CustomerBOImpl().getAll();
+            List<CustomerDto> cusList = customerBO.getAll();
 
             for (CustomerDto dto : cusList) {
                 obList.add(dto.getCustomerId());
             }
             cmbCustomerIddd.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -387,7 +396,7 @@ public class OrderFormController {
 
 
         try {
-            boolean isAdded = new PlaceOrderBOImpl().placeOrder(dto);
+            boolean isAdded = placeOrderBO.placeOrder(dto);
             if (isAdded) {
 
                 new SystemAlert(Alert.AlertType.CONFIRMATION, "Information", "Order Successfully!", ButtonType.OK).show();
@@ -458,7 +467,7 @@ public class OrderFormController {
         txtQty.requestFocus();
 
         try {
-            ToolDto dto = new ToolBOImpl().search(toolid);
+            ToolDto dto = toolBO.search(toolid);
 
             lblDescription.setText(dto.getToolName());
             lblRentPerDay.setText(String.valueOf(dto.getRentPerDay()));
@@ -476,7 +485,7 @@ public class OrderFormController {
         txtQty.requestFocus();
 
         try {
-            ToolDto dto = new ToolBOImpl().search(code);
+            ToolDto dto = toolBO.search(code);
 
             lblDescription.setText(dto.getToolName());
             lblRentPerDay.setText(String.valueOf(dto.getRentPerDay()));
@@ -490,7 +499,7 @@ public class OrderFormController {
     public void cmbCustomerOnAction(ActionEvent actionEvent) throws SQLException {
        try {
            String id = (String) cmbCustomerIddd.getValue();
-           CustomerDto dto = new CustomerBOImpl().searchCustomerId(id);
+           CustomerDto dto = customerBO.searchCustomerId(id);
            lblCustomerName.setText(dto.getCustomerName());
            lblCustomerEmail.setText(dto.getCustomerEmail());
        }catch (SQLException e){
@@ -543,7 +552,7 @@ public class OrderFormController {
 
 
             try {
-                boolean isUpdated = new OrderDeatilBOImpl().returnOrderDetails(dto);
+                boolean isUpdated = orderDeatilBO.returnOrderDetails(dto);
                 if (isUpdated) {
                     new SystemAlert(Alert.AlertType.CONFIRMATION, "Information", "Order Returned Successfully!", ButtonType.OK).show();
                     loadAllOrderDetails();

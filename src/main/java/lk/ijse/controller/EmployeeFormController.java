@@ -18,6 +18,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.AttandanceBO;
+import lk.ijse.bo.custom.EmployeeBO;
 import lk.ijse.bo.custom.impl.AttandanceBOImpl;
 import lk.ijse.bo.custom.impl.EmployeeBOImpl;
 import lk.ijse.dao.custom.impl.AttadanceDAOImpl;
@@ -146,6 +149,9 @@ public class EmployeeFormController {
     @FXML
     private DatePicker DatePicker;
 
+    EmployeeBO employeeBO= (EmployeeBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.EMPLOYEE);
+    AttandanceBO   attandanceBO  = (AttandanceBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.ATTANDANCE);
+
 
     public void initialize(){
         employeeCellvalueFactory();
@@ -165,7 +171,7 @@ public class EmployeeFormController {
 
         ObservableList<EmployeeTm> employeeTmObservableList = FXCollections.observableArrayList();
         try {
-            List<EmployeeDto> employeeDtos  = new EmployeeBOImpl().getAll();
+            List<EmployeeDto> employeeDtos  = employeeBO.getAll();
             for (EmployeeDto dto : employeeDtos){
                 employeeTmObservableList.add(
                         new EmployeeTm(
@@ -179,6 +185,8 @@ public class EmployeeFormController {
             }
             tblEmployee.setItems(employeeTmObservableList);
         }catch (SQLException e){
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -207,7 +215,7 @@ public class EmployeeFormController {
         }
 
         try {
-            EmployeeDto dto = new EmployeeBOImpl().search(employeeIDText);
+            EmployeeDto dto = employeeBO.search(employeeIDText);
             if(dto!=null){
                 employeeSetFeild(dto);
             }else {
@@ -225,6 +233,8 @@ public class EmployeeFormController {
             }
         }catch (SQLException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).showAndWait();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -295,7 +305,7 @@ public class EmployeeFormController {
 
 
         try {
-            boolean isSaved = new EmployeeBOImpl().save(dto);
+            boolean isSaved = employeeBO.save(dto);
             if (isSaved){
                     loadAllEmployee();
                     new SystemAlert(Alert.AlertType.CONFIRMATION,"Success","Employee Saved Successfully!").show();
@@ -385,7 +395,7 @@ public class EmployeeFormController {
         EmployeeDto dto = new EmployeeDto(employeeIDText, employeeNameText, employeeNICText, employeeAddressText);
 
         try {
-            boolean isUpdated = new EmployeeBOImpl().update(dto);
+            boolean isUpdated = employeeBO.update(dto);
             if (isUpdated){
                 new SystemAlert(Alert.AlertType.CONFIRMATION,"Success","Employee Updated Successfully").show();
                 try {
@@ -410,7 +420,7 @@ public class EmployeeFormController {
                     e.printStackTrace();
                 }
             }
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).showAndWait();
         }
 
@@ -524,7 +534,7 @@ public class EmployeeFormController {
 
 
         try {
-            boolean isDeleted = new EmployeeDAOImpl().delete(employeeId);
+            boolean isDeleted = employeeBO.delete(employeeId);
             if (isDeleted){
                 new SystemAlert(Alert.AlertType.CONFIRMATION,"Success","Employee Deleted Successfully").show();
                 try {
@@ -561,7 +571,7 @@ public class EmployeeFormController {
     private void loadEmployeeIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<EmployeeDto> employeeDtoListList = new EmployeeBOImpl().getAll();
+            List<EmployeeDto> employeeDtoListList = employeeBO.getAll();
 
             for ( EmployeeDto dto: employeeDtoListList) {
                 obList.add(dto.getEmployeeid());
@@ -569,6 +579,8 @@ public class EmployeeFormController {
             }
             cmbQrEmployeeId.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -583,7 +595,7 @@ public class EmployeeFormController {
                 try {
                     qrGenerator.getGenerator();
                     setQrDetails();
-                } catch (IOException | WriterException e) {
+                } catch (IOException | WriterException | ClassNotFoundException e) {
                     new Alert(Alert.AlertType.ERROR, String.valueOf(e)).show();
                 }
                 File file = new File(qrGenerator.getPath());
@@ -596,7 +608,7 @@ public class EmployeeFormController {
 
 
     }
-    public void setQrDetails() throws SQLException {
+    public void setQrDetails() throws SQLException, ClassNotFoundException {
 
         String employeeId = (String) cmbQrEmployeeId.getValue();
         EmployeeDto dto = new EmployeeBOImpl().search(employeeId);
@@ -669,6 +681,8 @@ public class EmployeeFormController {
                                     setDetails();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
+                                } catch (ClassNotFoundException e) {
+                                    throw new RuntimeException(e);
                                 }
                             } else {
                                 new Alert(Alert.AlertType.ERROR, "No Data Found!").showAndWait();
@@ -683,7 +697,7 @@ public class EmployeeFormController {
         thread.start();
         return true;
     }
-    public void setDetails() throws SQLException {
+    public void setDetails() throws SQLException, ClassNotFoundException {
         EmployeeDto dto = new EmployeeBOImpl().search(Employeeid);
 
             lblQrScannerId.setText(dto.getEmployeeid());
@@ -714,7 +728,7 @@ public class EmployeeFormController {
         AttandanceDto dto = new AttandanceDto(scannerIdText, scannerNameText, scannerDate, scannerNicText, scannerStatus);
 
         try {
-           boolean addAttandance = new AttandanceBOImpl().addAttandance(dto);
+           boolean addAttandance = attandanceBO.addAttandance(dto);
             if (addAttandance) {
                 new SystemAlert(Alert.AlertType.INFORMATION, "Success", "Attandance Added successfully!", ButtonType.OK).show();
             }else {
@@ -731,7 +745,7 @@ public class EmployeeFormController {
     public void loadAllCustomer(){
         ObservableList<AttandanceTm> tmObservableList = FXCollections.observableArrayList();
         try {
-            List<AttandanceDto> attandanceDto = new AttandanceBOImpl().getAttandanceDetails();
+            List<AttandanceDto> attandanceDto = attandanceBO.getAttandanceDetails();
             for (AttandanceDto dto : attandanceDto ){
                 tmObservableList.add(
                         new AttandanceTm(
@@ -763,7 +777,7 @@ public class EmployeeFormController {
         LocalDate date = LocalDate.parse(DatePicker.getValue().toString());
         ObservableList<AttandanceTm> attendance = null;
         try {
-            attendance = new AttadanceDAOImpl().getAttendanceOfDay(String.valueOf(date));
+            attendance = attandanceBO.getAttendanceOfDay(String.valueOf(date));
             tblAttandance.setItems(attendance);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).showAndWait();

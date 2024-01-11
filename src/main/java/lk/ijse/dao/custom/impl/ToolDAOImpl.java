@@ -64,7 +64,7 @@ public class ToolDAOImpl implements ToolDAO {
     }
 
     @Override
-    public boolean update(Tool entity) throws SQLException {
+    public  boolean update(Tool entity) throws SQLException {
         String sql= "UPDATE tool SET  tool_name = ?, qty_on_hand = ?, rent_per_day_price = ? WHERE tool_id = ?";
         return SQLUtil.execute(sql,
                 entity.getToolName(),

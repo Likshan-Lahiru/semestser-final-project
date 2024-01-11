@@ -3,17 +3,16 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.OrderDetailDAO;
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.OrderDetailsDto;
 import lk.ijse.dto.tm.CartTm;
 import lk.ijse.entity.OrderDetails;
 
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
 public class OrderDeatilDAOImpl implements OrderDetailDAO {
+
     @Override
     public boolean saveOrderDetail(String orderId, List<CartTm> cartTms) throws SQLException {
         System.out.println(orderId);

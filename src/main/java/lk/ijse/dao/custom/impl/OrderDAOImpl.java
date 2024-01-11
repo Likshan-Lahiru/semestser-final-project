@@ -1,14 +1,18 @@
 package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.SQLUtil;
+import lk.ijse.dao.custom.OrderDAO;
 import lk.ijse.dto.OrderDetailsDto;
 import lk.ijse.dto.PlaceOrderDto;
+import lk.ijse.entity.SignUp;
+
 import java.sql.*;
 import java.util.ArrayList;
 
 
-public class OrderDAOImpl {
-    public static boolean saveOrder(String orderId,String customerId,String orderDate, String name) throws SQLException {
+public class OrderDAOImpl implements OrderDAO  {
+
+    public  boolean saveOrder(String orderId,String customerId,String orderDate, String name) throws SQLException {
 
         String sql = "INSERT INTO orders VALUES (?,?,?,?)";
         PlaceOrderDto dto = new PlaceOrderDto(customerId, orderId, orderDate, name);
@@ -19,7 +23,7 @@ public class OrderDAOImpl {
                 dto.getName()
                 );
     }
-    public static String generateNextOrderId() throws SQLException {
+    public  String generateNextOrderId() throws SQLException {
         String sql = "SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1";
         ResultSet resultSet = SQLUtil.execute(sql);
         String currentOrderId = null;
@@ -41,7 +45,7 @@ public class OrderDAOImpl {
         }
         return splitOrderId(null);*/
     }
-    private static String splitOrderId(String currentOrderId) {
+    public  String splitOrderId(String currentOrderId) {
         if (currentOrderId != null) {
             String[] split = currentOrderId.split("O");
             int id = Integer.parseInt(split[1]);
@@ -106,4 +110,6 @@ public class OrderDAOImpl {
         }
         return null;*/
     }
+
+
 }

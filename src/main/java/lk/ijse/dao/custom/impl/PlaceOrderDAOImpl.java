@@ -4,14 +4,15 @@ import lk.ijse.dao.custom.PlaceOrderDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.PlaceOrderDto;
 import lk.ijse.entity.PlaceOrder;
+import org.bridj.cpp.com.VARIANT;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class PlaceOrderDAOImpl implements PlaceOrderDAO {
+public class PlaceOrderDAOImpl  {
 
 
-    @Override
+   /* @Override
     public boolean placeOrder(PlaceOrder entity) throws SQLException {
         boolean result = false;
         Connection connection = null;
@@ -46,5 +47,6 @@ public class PlaceOrderDAOImpl implements PlaceOrderDAO {
         return result;
 
 
-    }
+    }*/
+
 }

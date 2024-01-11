@@ -11,6 +11,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.EmployeeBO;
+import lk.ijse.bo.custom.LoginBO;
+import lk.ijse.bo.custom.impl.EmployeeBOImpl;
 import lk.ijse.bo.custom.impl.LoginBOImpl;
 import lk.ijse.dao.custom.impl.LoginDAOImpl;
 import lk.ijse.dto.LoginDto;
@@ -43,6 +47,7 @@ public class LoginFormController {
     @FXML
 
     String time;
+    LoginBO loginBO= (LoginBO) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.LOGIN);
 
     private String hiru = "lahiru212001@gmail.com";
     public void initialize(){
@@ -95,7 +100,7 @@ public class LoginFormController {
        LoginDto dto = new LoginDto(nameText,passwordText);
 
        try {
-            boolean checked = new LoginBOImpl().checkCredentianl(dto);
+            boolean checked =  loginBO.checkCredentianl(dto);
             if (checked){
         AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/Main_form.fxml"));
         Scene scene = new Scene(anchorPane);

@@ -10,10 +10,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.CustomerBO;
+import lk.ijse.bo.custom.EmployeeBO;
 import lk.ijse.bo.custom.impl.CustomerBOImpl;
+import lk.ijse.bo.custom.impl.EmployeeBOImpl;
+import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dao.custom.impl.EmployeeDAOImpl;
 import lk.ijse.dao.custom.impl.OrderDAOImpl;
+import lk.ijse.dao.factory.DAOFactory;
 import lk.ijse.util.SoundsAssits;
 import lk.ijse.util.SystemAlert;
 import lombok.SneakyThrows;
@@ -48,7 +54,8 @@ public class DashBoardController implements Initializable {
     @FXML
     private Label lblDate;
 
-
+    CustomerBO customerBO= (CustomerBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.CUSTOMER);
+    EmployeeBO employeeBO= (EmployeeBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.EMPLOYEE);
     @SneakyThrows
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -76,8 +83,8 @@ public class DashBoardController implements Initializable {
 
     public void allDetailsLoader() throws SQLException {
         try {
-            String totalCustomer = new CustomerBOImpl().getTotalCustomers();
-            String totalEmployee =  new EmployeeDAOImpl().getTotalEmployees();
+            String totalCustomer = customerBO.getTotalCustomers();
+            String totalEmployee =  employeeBO.getTotalEmployees();
             String totalOrders = new OrderDAOImpl().getAllOrdersCount();
             System.out.println(totalCustomer+" "+totalEmployee+" "+totalOrders);
             lblCustomer.setText(totalCustomer);
