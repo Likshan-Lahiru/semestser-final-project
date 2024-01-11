@@ -11,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.custom.impl.LoginBOImpl;
 import lk.ijse.dao.custom.impl.LoginDAOImpl;
 import lk.ijse.dto.LoginDto;
 import lk.ijse.dto.SignUpDto;
@@ -78,7 +79,7 @@ public class LoginFormController {
             return;
         }
 
-        SignUpDto dto1 = new LoginDAOImpl().getName(nameText);
+        SignUpDto dto1 = new LoginBOImpl().getName(nameText);
         String name = dto1.getUserName();
         String name2 = dto1.getScondName();
 
@@ -94,7 +95,7 @@ public class LoginFormController {
        LoginDto dto = new LoginDto(nameText,passwordText);
 
        try {
-            boolean checked = new LoginDAOImpl().checkCredentianl(dto);
+            boolean checked = new LoginBOImpl().checkCredentianl(dto);
             if (checked){
         AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/Main_form.fxml"));
         Scene scene = new Scene(anchorPane);

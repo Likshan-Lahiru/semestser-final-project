@@ -5,6 +5,8 @@ import lk.ijse.dao.custom.LoginDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.LoginDto;
 import lk.ijse.dto.SignUpDto;
+import lk.ijse.entity.Login;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,9 +14,9 @@ import java.sql.SQLException;
 
 public class LoginDAOImpl implements LoginDAO {
     @Override
-    public boolean checkCredentianl(LoginDto dto) throws SQLException {
+    public boolean checkCredentianl(Login entity) throws SQLException {
         String sql = "select * from user where user_name = ? and password = ?";
-        ResultSet resultSet =  SQLUtil.execute(sql,dto.getUsername(),dto.getPassword());
+        ResultSet resultSet =  SQLUtil.execute(sql,entity.getUsername(),entity.getPassword());
         if (resultSet.next()) {
             return true;
         } else {
