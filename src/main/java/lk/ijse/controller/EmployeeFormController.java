@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import lk.ijse.bo.custom.impl.AttandanceBOImpl;
 import lk.ijse.dao.custom.impl.AttadanceDAOImpl;
 import lk.ijse.dao.custom.impl.EmployeeDAOImpl;
 import lk.ijse.dto.AttandanceDto;
@@ -712,7 +713,7 @@ public class EmployeeFormController {
         AttandanceDto dto = new AttandanceDto(scannerIdText, scannerNameText, scannerDate, scannerNicText, scannerStatus);
 
         try {
-           boolean addAttandance = new AttadanceDAOImpl().addAttandance(dto);
+           boolean addAttandance = new AttandanceBOImpl().addAttandance(dto);
             if (addAttandance) {
                 new SystemAlert(Alert.AlertType.INFORMATION, "Success", "Attandance Added successfully!", ButtonType.OK).show();
             }else {
@@ -729,7 +730,7 @@ public class EmployeeFormController {
     public void loadAllCustomer(){
         ObservableList<AttandanceTm> tmObservableList = FXCollections.observableArrayList();
         try {
-            List<AttandanceDto> attandanceDto = new AttadanceDAOImpl().getAttandanceDetails();
+            List<AttandanceDto> attandanceDto = new AttandanceBOImpl().getAttandanceDetails();
             for (AttandanceDto dto : attandanceDto ){
                 tmObservableList.add(
                         new AttandanceTm(

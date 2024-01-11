@@ -7,6 +7,7 @@ import lk.ijse.dao.custom.AttandanceDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.AttandanceDto;
 import lk.ijse.dto.tm.AttandanceTm;
+import lk.ijse.entity.Attandance;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,14 +19,14 @@ import java.util.List;
 
 public class AttadanceDAOImpl implements AttandanceDAO {
     @Override
-    public boolean addAttandance(AttandanceDto dto) throws SQLException {
+    public boolean addAttandance(Attandance entity) throws SQLException {
         String sql = "INSERT INTO employee_attandance VALUES(?,?,?,?,?)";
         return SQLUtil.execute(sql,
-                dto.getEmployeeId(),
-                dto.getEmployeeName(),
-                dto.getDate(),
-                dto.getNIC(),
-                dto.getStatus()
+                entity.getEmployeeId(),
+                entity.getEmployeeName(),
+                entity.getDate(),
+                entity.getNIC(),
+                entity.getStatus()
         );
         /*Connection connection = DbConnection.getInstance().getConnection();
         String sql = "INSERT INTO employee_attandance VALUES(?,?,?,?,?)";
@@ -40,21 +41,21 @@ public class AttadanceDAOImpl implements AttandanceDAO {
     }
 
     @Override
-    public  List<AttandanceDto> getAttandanceDetails() throws SQLException {
+    public  ArrayList<Attandance> getAttandanceDetails() throws SQLException {
         String sql = "SELECT * FROM employee_attandance";
         ResultSet resultSet = SQLUtil.execute(sql);
-        List<AttandanceDto> attandanceDto = new ArrayList<>();
+        ArrayList<Attandance> attandance = new ArrayList<>();
         while (resultSet.next()){
-            AttandanceDto dto = new AttandanceDto(
+            Attandance entity = new Attandance(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getString(4),
                     resultSet.getString(5)
             );
-            attandanceDto.add(dto);
+            attandance.add(entity);
         }
-        return attandanceDto;
+        return attandance;
         /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM employee_attandance";

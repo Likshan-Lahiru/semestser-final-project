@@ -1,18 +1,16 @@
-package lk.ijse.dao.custom;
+package lk.ijse.bo;
 
 import javafx.collections.ObservableList;
 import lk.ijse.dto.AttandanceDto;
 import lk.ijse.dto.tm.AttandanceTm;
-import lk.ijse.entity.Attandance;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-public interface AttandanceDAO {
-    boolean addAttandance(Attandance entity) throws SQLException;
-    ArrayList<Attandance> getAttandanceDetails() throws SQLException;
+public interface AttandanceBO {
+    boolean addAttandance(AttandanceDto dto) throws SQLException;
+    List<AttandanceDto> getAttandanceDetails() throws SQLException;
     boolean isExist(LocalDate date) throws SQLException;
     ObservableList<AttandanceTm> getAttendanceOfDay(String date) throws SQLException;
 }

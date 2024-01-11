@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import lk.ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dao.custom.impl.EmployeeDAOImpl;
 import lk.ijse.dao.custom.impl.OrderDAOImpl;
@@ -75,7 +76,7 @@ public class DashBoardController implements Initializable {
 
     public void allDetailsLoader() throws SQLException {
         try {
-            String totalCustomer = new CustomerDAOImpl().getTotalCustomers();
+            String totalCustomer = new CustomerBOImpl().getTotalCustomers();
             String totalEmployee =  new EmployeeDAOImpl().getTotalEmployees();
             String totalOrders = new OrderDAOImpl().getAllOrdersCount();
             System.out.println(totalCustomer+" "+totalEmployee+" "+totalOrders);
