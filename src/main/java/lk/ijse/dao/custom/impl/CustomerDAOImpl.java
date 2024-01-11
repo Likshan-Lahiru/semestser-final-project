@@ -4,6 +4,7 @@ import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.CustomerDto;
+import lk.ijse.entity.Customer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,11 +16,11 @@ import java.util.ArrayList;
 public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
-    public boolean save(CustomerDto dto) throws SQLException {
+    public boolean save(Customer entity) throws SQLException {
         String query = "INSERT INTO customer (customer_id,customer_name,address,NIC,contact_number,email) VALUES (?, ?, ?, ?, ?, ?) ";
         return SQLUtil.execute(query,
-        dto.getCustomerId(),dto.getCustomerName(),dto.getCustomerAddress(),dto.getCustomerNic(),
-                dto.getCustomerContactNumber(), dto.getCustomerEmail());
+        entity.getCustomerId(),entity.getCustomerName(),entity.getCustomerAddress(),entity.getCustomerNic(),
+                entity.getCustomerContactNumber(), entity.getCustomerEmail());
     }
     @Override
     public ArrayList<CustomerDto> getAll() throws SQLException {
