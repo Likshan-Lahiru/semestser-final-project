@@ -4,6 +4,8 @@ import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.EmployeeDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.EmployeeDto;
+import lk.ijse.entity.Employee;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,64 +15,64 @@ import java.util.ArrayList;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
-    public boolean save(EmployeeDto dto) throws SQLException {
+    public boolean save(Employee entity) throws SQLException {
 
         String sql = "INSERT INTO employee values (?,?,?,?)";
        return SQLUtil.execute(sql,
-                dto.getEmployeeid(),
-                dto.getEmployeeName(),
-                dto.getEmployeeNIC(),
-                dto.getEmployeeAddress()
+                entity.getEmployeeid(),
+                entity.getEmployeeName(),
+                entity.getEmployeeNIC(),
+                entity.getEmployeeAddress()
                 );
     }
 
     @Override
-    public ArrayList<EmployeeDto> getAll() throws SQLException {
+    public ArrayList<Employee> getAll() throws SQLException {
         String sql = "SELECT * FROM employee ";
-        ArrayList<EmployeeDto> employeeDtos = new ArrayList<>();
+        ArrayList<Employee> employee = new ArrayList<>();
         ResultSet resultSet = SQLUtil.execute(sql);
         while (resultSet.next()) {
-            EmployeeDto dto = new EmployeeDto(
+            Employee dto = new Employee(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getString(4)
             );
-            employeeDtos.add(dto);
+            employee.add(dto);
         }
-        return employeeDtos;
+        return employee;
     }
 
     @Override
-    public EmployeeDto search(String employeeIDText) throws SQLException {
+    public Employee search(String employeeIDText) throws SQLException {
         String sql = "SELECT * FROM employee WHERE employee_id = ?";
         ResultSet resultSet = SQLUtil.execute(sql,employeeIDText);
-        EmployeeDto dto = null;
+        Employee entity = null;
         if (resultSet.next()) {
-            dto = new EmployeeDto(
+            entity = new Employee(
                     resultSet.getString("employee_id"),
                     resultSet.getString("employee_name"),
                     resultSet.getString("NIC"),
                     resultSet.getString("address")
 
             );
-            System.out.println(dto.getEmployeeid());
-            System.out.println(dto.getEmployeeName());
-            System.out.println(dto.getEmployeeNIC());
-            System.out.println(dto.getEmployeeAddress());
+            System.out.println(entity.getEmployeeid());
+            System.out.println(entity.getEmployeeName());
+            System.out.println(entity.getEmployeeNIC());
+            System.out.println(entity.getEmployeeAddress());
 
         }
-        return dto;
+        return entity;
     }
 
     @Override
-    public boolean update(EmployeeDto dto) throws SQLException {
+    public boolean update(Employee entity) throws SQLException {
         String sql = "UPDATE employee SET employee_name=?,NIC=?,address=? WHERE employee_id=?";
        return SQLUtil.execute(sql,
-                dto.getEmployeeName(),
-                dto.getEmployeeNIC(),
-                dto.getEmployeeAddress(),
-                dto.getEmployeeid()
+                entity.getEmployeeName(),
+                entity.getEmployeeNIC(),
+                entity.getEmployeeAddress(),
+                entity.getEmployeeid()
         );
     }
 

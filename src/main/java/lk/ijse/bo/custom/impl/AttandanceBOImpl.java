@@ -1,7 +1,7 @@
 package lk.ijse.bo.custom.impl;
 
 import javafx.collections.ObservableList;
-import lk.ijse.bo.AttandanceBO;
+import lk.ijse.bo.custom.AttandanceBO;
 import lk.ijse.dao.custom.impl.AttadanceDAOImpl;
 import lk.ijse.dto.AttandanceDto;
 import lk.ijse.dto.tm.AttandanceTm;
@@ -10,7 +10,6 @@ import lk.ijse.entity.Attandance;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AttandanceBOImpl implements AttandanceBO {
     @Override
