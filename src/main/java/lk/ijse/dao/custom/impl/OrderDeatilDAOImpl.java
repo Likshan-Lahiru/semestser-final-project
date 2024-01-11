@@ -5,6 +5,7 @@ import lk.ijse.dao.custom.OrderDetailDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.OrderDetailsDto;
 import lk.ijse.dto.tm.CartTm;
+import lk.ijse.entity.OrderDetails;
 
 
 import java.sql.Connection;
@@ -53,7 +54,7 @@ public class OrderDeatilDAOImpl implements OrderDetailDAO {
         return pstm.executeUpdate() > 0;*/
     }
     @Override
-    public boolean returnOrderDetails(OrderDetailsDto dto) throws SQLException {
+    public boolean returnOrderDetails(OrderDetails entity) throws SQLException {
         boolean result = false;
         Connection connection = null;
 
@@ -61,9 +62,9 @@ public class OrderDeatilDAOImpl implements OrderDetailDAO {
             connection = DbConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
-            boolean isUpdated = new ToolDAOImpl().updateToolReturnQty(dto);
+            boolean isUpdated = new ToolDAOImpl().updateToolReturnQty(entity);
             if(isUpdated) {
-                boolean isOrderDetailSaved  = new OrderDeatilDAOImpl().updateReturnPrderDetail(dto);
+                boolean isOrderDetailSaved  = new OrderDeatilDAOImpl().updateReturnPrderDetail(entity);
                 if (isOrderDetailSaved) {
                     connection.commit();
                     result = true;
@@ -78,12 +79,12 @@ public class OrderDeatilDAOImpl implements OrderDetailDAO {
 
     }
     @Override
-    public boolean updateReturnPrderDetail(OrderDetailsDto dto) throws SQLException {
+    public boolean updateReturnPrderDetail(OrderDetails entity) throws SQLException {
         String sql = "UPDATE order_detail SET status = ?, order_date = CURRENT_DATE WHERE order_id = ?  AND tool_id = ?";
         return SQLUtil.execute(sql,
-                dto.getStatus(),
-                dto.getOrderId(),
-                dto.getToolId()
+                entity.getStatus(),
+                entity.getOrderId(),
+                entity.getToolId()
         );
         /*Connection connection = DbConnection.getInstance().getConnection();
         String sql = "UPDATE order_detail SET status = ?, order_date = CURRENT_DATE WHERE order_id = ?  AND tool_id = ?";

@@ -8,6 +8,7 @@ import lk.ijse.dto.ToolDto;
 import lk.ijse.dto.ToolWasteDetailDto;
 import lk.ijse.dto.tm.CartTm;
 import lk.ijse.dto.tm.StockListTm;
+import lk.ijse.entity.OrderDetails;
 import lk.ijse.entity.Tool;
 
 import java.sql.Connection;
@@ -113,11 +114,11 @@ public class ToolDAOImpl implements ToolDAO {
     }
 
     @Override
-    public boolean updateToolReturnQty(OrderDetailsDto dto) throws SQLException {
+    public boolean updateToolReturnQty(OrderDetails entity) throws SQLException {
         String sql = "UPDATE tool SET qty_on_hand = qty_on_hand + ? WHERE tool_id = ?";
        return SQLUtil.execute(sql,
-              dto.getQty(),
-              dto.getToolId()
+              entity.getQty(),
+              entity.getToolId()
         );
     }
 

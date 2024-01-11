@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.bo.custom.impl.CustomerBOImpl;
+import lk.ijse.bo.custom.impl.OrderDeatilBOImpl;
 import lk.ijse.bo.custom.impl.ToolBOImpl;
 import lk.ijse.dao.custom.impl.*;
 import lk.ijse.db.DbConnection;
@@ -541,7 +542,7 @@ public class OrderFormController {
 
 
             try {
-                boolean isUpdated = new OrderDeatilDAOImpl().returnOrderDetails(dto);
+                boolean isUpdated = new OrderDeatilBOImpl().returnOrderDetails(dto);
                 if (isUpdated) {
                     new SystemAlert(Alert.AlertType.CONFIRMATION, "Information", "Order Returned Successfully!", ButtonType.OK).show();
                     loadAllOrderDetails();
