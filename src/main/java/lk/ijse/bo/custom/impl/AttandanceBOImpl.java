@@ -17,14 +17,14 @@ public class AttandanceBOImpl implements AttandanceBO {
     AttandanceDAO attadanceDAO= (AttadanceDAOImpl) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ATTANDANCE);
     @Override
     public boolean addAttandance(AttandanceDto dto) throws SQLException {
-        attadanceDAO.addAttandance(new Attandance(
+       return attadanceDAO.addAttandance(new Attandance(
                 dto.getEmployeeId(),
                 dto.getEmployeeName(),
                 dto.getDate(),
                 dto.getNIC(),
                 dto.getStatus()
         ));
-        return false;
+
     }
     @Override
     public ArrayList<AttandanceDto> getAttandanceDetails() throws SQLException {
