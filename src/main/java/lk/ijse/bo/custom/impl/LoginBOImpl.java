@@ -5,7 +5,6 @@ import lk.ijse.dao.custom.impl.LoginDAOImpl;
 import lk.ijse.dto.LoginDto;
 import lk.ijse.dto.SignUpDto;
 import lk.ijse.entity.Login;
-
 import java.sql.SQLException;
 
 public class LoginBOImpl implements LoginBO {

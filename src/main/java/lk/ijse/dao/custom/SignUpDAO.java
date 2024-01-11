@@ -1,9 +1,10 @@
 package lk.ijse.dao.custom;
 
 import lk.ijse.dto.SignUpDto;
+import lk.ijse.entity.SignUp;
 
 import java.sql.SQLException;
 
 public interface SignUpDAO {
-    boolean createAccount(final SignUpDto dto) throws SQLException;
+    boolean createAccount(final SignUp entity) throws SQLException;
 }

@@ -4,8 +4,6 @@ import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.entity.Customer;
-
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

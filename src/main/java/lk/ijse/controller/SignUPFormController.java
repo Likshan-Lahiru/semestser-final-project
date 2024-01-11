@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.custom.impl.SignUpBOImpl;
 import lk.ijse.dao.custom.impl.SignUpDAOImpl;
 import lk.ijse.dto.SignUpDto;
 import lk.ijse.util.ButtonSounds;
@@ -92,7 +93,7 @@ public class SignUPFormController {
 
 
         try {
-            boolean isCreateAccount = new SignUpDAOImpl().createAccount(dto);
+            boolean isCreateAccount = new SignUpBOImpl().createAccount(dto);
             if (isCreateAccount){
                new SystemAlert(Alert.AlertType.INFORMATION, "Information", "Account Created Successfully").show();
                 resetBoarderColor();
