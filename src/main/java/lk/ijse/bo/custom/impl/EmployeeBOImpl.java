@@ -11,14 +11,14 @@ import java.util.ArrayList;
 public class EmployeeBOImpl implements EmployeeBO {
     @Override
     public boolean save(EmployeeDto dto) throws SQLException, ClassNotFoundException {
-        new EmployeeDAOImpl().save(
+       return new EmployeeDAOImpl().save(
                 new Employee(
                         dto.getEmployeeid(),
                         dto.getEmployeeName(),
                         dto.getEmployeeNIC(),
                         dto.getEmployeeAddress()
                 ));
-        return false;
+
     }
 
     @Override

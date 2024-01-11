@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import lk.ijse.bo.custom.impl.AttandanceBOImpl;
+import lk.ijse.bo.custom.impl.EmployeeBOImpl;
 import lk.ijse.dao.custom.impl.AttadanceDAOImpl;
 import lk.ijse.dao.custom.impl.EmployeeDAOImpl;
 import lk.ijse.dto.AttandanceDto;
@@ -164,7 +165,7 @@ public class EmployeeFormController {
 
         ObservableList<EmployeeTm> employeeTmObservableList = FXCollections.observableArrayList();
         try {
-            List<EmployeeDto> employeeDtos  = new EmployeeDAOImpl().getAll();
+            List<EmployeeDto> employeeDtos  = new EmployeeBOImpl().getAll();
             for (EmployeeDto dto : employeeDtos){
                 employeeTmObservableList.add(
                         new EmployeeTm(
@@ -206,7 +207,7 @@ public class EmployeeFormController {
         }
 
         try {
-            EmployeeDto dto = new EmployeeDAOImpl().search(employeeIDText);
+            EmployeeDto dto = new EmployeeBOImpl().search(employeeIDText);
             if(dto!=null){
                 employeeSetFeild(dto);
             }else {
@@ -294,7 +295,7 @@ public class EmployeeFormController {
 
 
         try {
-            boolean isSaved = new EmployeeDAOImpl().save(dto);
+            boolean isSaved = new EmployeeBOImpl().save(dto);
             if (isSaved){
                     loadAllEmployee();
                     new SystemAlert(Alert.AlertType.CONFIRMATION,"Success","Employee Saved Successfully!").show();
@@ -321,7 +322,7 @@ public class EmployeeFormController {
                 }
             }
 
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).showAndWait();
         }
 
@@ -384,7 +385,7 @@ public class EmployeeFormController {
         EmployeeDto dto = new EmployeeDto(employeeIDText, employeeNameText, employeeNICText, employeeAddressText);
 
         try {
-            boolean isUpdated = new EmployeeDAOImpl().update(dto);
+            boolean isUpdated = new EmployeeBOImpl().update(dto);
             if (isUpdated){
                 new SystemAlert(Alert.AlertType.CONFIRMATION,"Success","Employee Updated Successfully").show();
                 try {
@@ -560,7 +561,7 @@ public class EmployeeFormController {
     private void loadEmployeeIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<EmployeeDto> employeeDtoListList = new EmployeeDAOImpl().getAll();
+            List<EmployeeDto> employeeDtoListList = new EmployeeBOImpl().getAll();
 
             for ( EmployeeDto dto: employeeDtoListList) {
                 obList.add(dto.getEmployeeid());
@@ -598,7 +599,7 @@ public class EmployeeFormController {
     public void setQrDetails() throws SQLException {
 
         String employeeId = (String) cmbQrEmployeeId.getValue();
-        EmployeeDto dto = new EmployeeDAOImpl().search(employeeId);
+        EmployeeDto dto = new EmployeeBOImpl().search(employeeId);
         lblQrAddress.setText(dto.getEmployeeAddress());
         lblQrName.setText(dto.getEmployeeName());
         lblQrNic.setText(dto.getEmployeeNIC());
@@ -683,7 +684,7 @@ public class EmployeeFormController {
         return true;
     }
     public void setDetails() throws SQLException {
-        EmployeeDto dto = new EmployeeDAOImpl().search(Employeeid);
+        EmployeeDto dto = new EmployeeBOImpl().search(Employeeid);
 
             lblQrScannerId.setText(dto.getEmployeeid());
             lblQrScannerName.setText(dto.getEmployeeName());
