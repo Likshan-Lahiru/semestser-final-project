@@ -10,6 +10,10 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.ToolBO;
+import lk.ijse.bo.custom.VehicleBO;
+import lk.ijse.bo.custom.impl.ToolBOImpl;
 import lk.ijse.bo.custom.impl.VehicleBOImpl;
 import lk.ijse.dao.custom.impl.VehicleDAOImpl;
 import lk.ijse.dto.VehicleDto;
@@ -46,6 +50,7 @@ public class VehicalFormController {
     private TableColumn <?,?> colVehicleId;
     @FXML
     private TableView<VehicleTm> tblVehicleDetail;
+    VehicleBO vehicleBO= (VehicleBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.VEHICLE);
 
     public void initialize(){
         vehicleCellvalueFactory();
@@ -74,7 +79,7 @@ public class VehicalFormController {
     public void loadAllvehicle(){
         ObservableList<VehicleTm> vehicleTmObservableList = FXCollections.observableArrayList();
         try {
-            List<VehicleDto>  vehicleDtos =new VehicleBOImpl().getAll();
+            List<VehicleDto>  vehicleDtos =vehicleBO.getAll();
             for (VehicleDto dto : vehicleDtos){
                 vehicleTmObservableList.add(
                         new VehicleTm(
@@ -126,7 +131,7 @@ public class VehicalFormController {
         VehicleDto dto = new VehicleDto(txtVehicleIdText, txtNumPlateNoText, txtVehicleStatusText, pickerLastServiceDateValue);
 
         try {
-            boolean isSaved = new VehicleBOImpl().save(dto);
+            boolean isSaved = vehicleBO.save(dto);
             if (isSaved){
                 new SystemAlert(Alert.AlertType.CONFIRMATION,"Confirmation","New Vehicle details is Saved!", ButtonType.OK).show();
             }else {
@@ -168,7 +173,7 @@ public class VehicalFormController {
 
         VehicleDto dto = new VehicleDto(txtVehicleIdText, txtNumPlateNoText, txtVehicleStatusText, pickerLastServiceDateValue);
         try {
-           boolean isUpdated =  new VehicleBOImpl().update(dto);
+           boolean isUpdated =  vehicleBO.update(dto);
            if (isUpdated){
                new SystemAlert(Alert.AlertType.CONFIRMATION,"Confirmation","Vehicle details is Updated!", ButtonType.OK).show();
            }else {
@@ -207,7 +212,7 @@ public class VehicalFormController {
 
 
         try {
-            boolean isDeleted = new VehicleDAOImpl().delete(txtVehicleIdText);
+            boolean isDeleted =  vehicleBO.delete(txtVehicleIdText);
             if (isDeleted){
                 new SystemAlert(Alert.AlertType.CONFIRMATION,"Confirmation","Vehicle details is Deleted!", ButtonType.OK).show();
             }else {
