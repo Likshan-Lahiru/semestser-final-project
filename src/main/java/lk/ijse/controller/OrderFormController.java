@@ -118,7 +118,6 @@ public class OrderFormController {
     ToolBO toolBO= (ToolBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.TOOL);
     OrderBO orderBO= (OrderBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.ORDER);
     CustomerBO customerBO= (CustomerBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.CUSTOMER);
-
     PlaceOrderBO placeOrderBO= (PlaceOrderBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.ORDERPLACE);
     OrderDeatilBO orderDeatilBO= (OrderDeatilBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.ORDERDETAILS);
     public OrderFormController() {
@@ -440,9 +439,10 @@ public class OrderFormController {
                     JasperPrint jasperPrint = JasperFillManager.fillReport(report, map, DbConnection.getInstance().getConnection());
                     JasperViewer.viewReport(jasperPrint, false);
 
-                    JasperExportManager.exportReportToPdfFile(jasperPrint, "C:\\Users\\user\\Desktop\\report Invoice\\"+orderId+".pdf");
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, "/Users/lahiruileperumage/Desktop/Qr"+orderId+".pdf");
+
                     Mail mail = new Mail();
-                    mail.setFile(new File("C:\\Users\\user\\Desktop\\report Invoice\\" + orderId + ".pdf"));
+                    mail.setFile(new File("/Users/lahiruileperumage/Desktop/Qr"+orderId+".pdf"));
                     mail.setTo(lblCustomerEmail.getText());
                     mail.setSubject("Ashen Enterprise Invoice");
                     mail.setMsg("Your Order has Placed and Invoice is attached here");

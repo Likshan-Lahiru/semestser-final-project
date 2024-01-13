@@ -20,6 +20,7 @@ public class OrderBOImpl implements OrderBO {
     public List<OrderDetailsDto> getAllOrderDetails() throws SQLException {
         return new OrderDAOImpl().getAllOrderDetails();
 
+
     }
 
     @Override

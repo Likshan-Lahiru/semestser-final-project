@@ -61,7 +61,7 @@ public class DashBoardController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadDateandTime();
         allDetailsLoader();
-        welcomeVoice();
+        //welcomeVoice();
     }
     private void loadDateandTime() {
         Date date = new Date();
