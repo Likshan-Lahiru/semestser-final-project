@@ -128,6 +128,7 @@
                   </ImageView>
                </graphic>
             </Button>
+            <Button layoutX="217.0" layoutY="603.0" mnemonicParsing="false" onAction="#testbtn" text="Button" />
          </children>
       </Pane>
       <Label alignment="BOTTOM_CENTER" layoutY="-99.0" prefHeight="147.0" prefWidth="1250.0" style="-fx-background-color: #164863;" text="Customer Detail" textFill="WHITE">

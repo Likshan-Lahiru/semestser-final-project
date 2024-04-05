@@ -376,7 +376,9 @@ public class CustomerFormController {
         txtSearchCustomerID.clear();
         txtCustomerEmail.clear();
     }
-
+    public void testbtn() {
+        System.out.println("ddddd");
+    }
 
     public void setMainFormController(MainFormController mainFormController) {
         this.mainFormController = mainFormController;

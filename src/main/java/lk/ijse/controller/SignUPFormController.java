@@ -35,6 +35,7 @@ public class SignUPFormController {
     private JFXTextField txtPassword;
     @FXML
     private JFXTextField txtEmail;
+
     @FXML
     private AnchorPane root;
     SignUpBO signUpBO= (SignUpBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.SIGNUP);
