@@ -1,0 +1,6 @@
+.table-view{
+    -fx-background-radius: 15;
+    -fx-background-color: transparent;
+    -fx-border-radius: 2;
+    -fx-border-color: transparent;
+}
