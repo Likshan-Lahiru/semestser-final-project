@@ -129,6 +129,7 @@
                </graphic>
             </Button>
             <Button layoutX="217.0" layoutY="603.0" mnemonicParsing="false" onAction="#testbtn" text="Button" />
+            <Button layoutX="717.0" layoutY="44.0" mnemonicParsing="false" onAction="#testOnAction" text="Button" />
          </children>
       </Pane>
       <Label alignment="BOTTOM_CENTER" layoutY="-99.0" prefHeight="147.0" prefWidth="1250.0" style="-fx-background-color: #164863;" text="Customer Detail" textFill="WHITE">

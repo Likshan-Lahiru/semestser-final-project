@@ -61,7 +61,10 @@ public class CustomerFormController {
     @FXML
     private TableColumn<?, ?> colCustomerEmail;
 
+    @FXML
+    void testOnAction(ActionEvent event) {
 
+    }
 
 
     CustomerBO customerBO= (CustomerBOImpl) BOFactory.getDaoFactory().getDAO(BOFactory.BOTypes.CUSTOMER);

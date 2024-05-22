@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AttadanceDAOImpl implements AttandanceDAO {
+
     @Override
     public boolean addAttandance(Attandance entity) throws SQLException {
         String sql = "INSERT INTO employee_attandance VALUES(?,?,?,?,?)";
